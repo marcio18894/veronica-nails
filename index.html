@@ -1,36 +1,32 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Veronica Nails</title><script src="https://cdn.tailwindcss.com"></script></head><body style="margin:0"><div id="app"></div><script>
-let state={view:'home',user:null,servico:null,data:null,hora:null,mes:new Date(),servs:[{id:'1',nome:'Manicure',preco:35},{id:'2',nome:'Pedicure',preco:40},{id:'3',nome:'Maos e Pes',preco:70},{id:'4',nome:'Banho de Gel',preco:120}]};
-function go(v){state.view=v;render();}
-function render(){
-let html='';
-if(state.view==='home'){
-html='<div style="min-height:100vh;background:linear-gradient(135deg,#FF69B4,#C48BBF);color:white;padding:24px;display:flex;flex-direction:column;align-items:center;text-align:center"><h1 style="font-size:36px;font-weight:bold;margin-top:40px">Veronica Nails<br><span style="font-size:20px;font-weight:normal">Espaco Beleza</span></h1><img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=600" style="width:100%;max-width:380px;height:220px;object-fit:cover;border-radius:32px;margin-top:24px"><div style="margin-top:32px;width:100%;max-width:360px;display:flex;flex-direction:column;gap:16px"><button onclick="go(\'login\')" style="width:100%;background:white;color:#FF69B4;font-weight:bold;padding:18px;border-radius:16px;border:none;font-size:18px">AGENDAR AGORA</button><a href="https://wa.me/5519997477168?text=Oi%20Veronica!%20Quero%20agendar" target="_blank" style="width:100%;background:#25D366;color:white;font-weight:bold;padding:18px;border-radius:16px;text-align:center;text-decoration:none;display:block">FALE NO WHATSAPP</a></div><p style="margin-top:24px;opacity:0.9">Pix: 1a541344-5f92-41e8-9a5d-02822562ed9b</p></div>';
-}
-else if(state.view==='login'){
-html='<div style="padding:24px;max-width:400px;margin:auto;font-family:sans-serif"><button onclick="go(\'home\')" style="color:#FF69B4;border:none;background:none">← Voltar</button><h2 style="color:#FF69B4;font-size:24px;margin-top:16px;font-weight:bold">Bem-vinda 💅</h2><input id="nome" placeholder="Seu nome" style="width:100%;margin-top:16px;padding:16px;border-radius:16px;border:1px solid #ddd"><input id="zap" placeholder="WhatsApp 11 digitos" style="width:100%;margin-top:12px;padding:16px;border-radius:16px;border:1px solid #ddd"><button onclick="login()" style="width:100%;margin-top:16px;background:#FF69B4;color:white;padding:16px;border-radius:16px;border:none;font-weight:bold;font-size:16px">ENTRAR</button></div>';
-}
-else if(state.view==='servs'){
-let lista='';
-for(let i=0;i<state.servs.length;i++){let s=state.servs[i];lista+='<div style="background:white;border-radius:16px;padding:16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 8px #0001;margin-bottom:12px"><div><p style="font-weight:bold">'+s.nome+'</p><p style="color:#FF69B4">R$ '+s.preco+'</p></div><button onclick="selServ(\''+s.id+'\')" style="background:#FF69B4;color:white;padding:10px 20px;border-radius:12px;border:none">Agendar</button></div>';}
-html='<div style="padding:16px;max-width:400px;margin:auto;font-family:sans-serif"><button onclick="go(\'home\')" style="color:#FF69B4;border:none;background:none">← Home</button><h2 style="font-weight:bold;margin-top:16px">Ola '+state.user.nome+' - Escolha servico</h2><div style="margin-top:16px">'+lista+'</div></div>';
-}
-else if(state.view==='cal'){
-html='<div style="padding:16px;max-width:400px;margin:auto;font-family:sans-serif"><button onclick="go(\'servs\')" style="color:#FF69B4;border:none;background:none">← Servicos</button><h2 style="font-weight:bold;margin-top:12px">'+state.servico.nome+' R$ '+state.servico.preco+'</h2><div style="background:white;border-radius:16px;padding:16px;margin-top:12px;box-shadow:0 2px 8px #0001"><div style="display:flex;justify-content:space-between;align-items:center"><button onclick="mudaMes(-1)" style="padding:8px 12px;border-radius:8px;border:1px solid #ddd"><</button><span style="font-weight:bold">'+state.mes.toLocaleString('pt-BR',{month:'long',year:'numeric'})+'</span><button onclick="mudaMes(1)" style="padding:8px 12px;border-radius:8px;border:1px solid #ddd">></button></div><div id="dias" style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:16px"></div></div><div id="horas" style="margin-top:16px"></div></div>'; setTimeout(renderDias,100);
-}
-else if(state.view==='conf'){
-html='<div style="padding:24px;max-width:400px;margin:auto;font-family:sans-serif"><h2 style="color:#FF69B4;font-weight:bold">Confirme</h2><div style="background:white;padding:20px;border-radius:16px;margin-top:12px;box-shadow:0 2px 8px #0001"><p>Nome: '+state.user.nome+'</p><p>Servico: '+state.servico.nome+'</p><p>Data: '+state.data+'</p><p>Hora: '+state.hora+'</p><p style="font-weight:bold;color:#FF69B4;margin-top:12px;font-size:20px">Total R$ '+state.servico.preco+'</p></div><button onclick="confirmar()" style="width:100%;margin-top:16px;background:#FF69B4;color:white;padding:16px;border-radius:16px;border:none;font-weight:bold">CONFIRMAR E VER PIX</button></div>';
-}
-else if(state.view==='pix'){
-html='<div style="padding:24px;max-width:400px;margin:auto;text-align:center;font-family:sans-serif"><h2 style="color:#FF69B4;font-weight:bold;font-size:22px">Pague com PIX 💖</h2><div style="background:white;padding:24px;border-radius:16px;margin-top:16px;box-shadow:0 2px 8px #0001"><p style="font-weight:bold">'+state.servico.nome+'</p><p>'+state.data+' as '+state.hora+'</p><p style="font-size:32px;font-weight:bold;color:#FF69B4;margin-top:8px">R$ '+state.servico.preco+'</p><p style="font-size:11px;margin-top:16px;background:#FFF0F5;padding:10px;border-radius:8px;word-break:break-all">1a541344-5f92-41e8-9a5d-02822562ed9b</p><button onclick="navigator.clipboard.writeText(\'1a541344-5f92-41e8-9a5d-02822562ed9b\');alert(\'PIX copiado!\')" style="width:100%;margin-top:16px;background:#FF69B4;color:white;padding:14px;border-radius:12px;border:none;font-weight:bold">COPIAR CHAVE PIX</button><a href="https://wa.me/5519997477168?text=Oi Veronica! Paguei PIX '+state.servico.nome+' dia '+state.data+' as '+state.hora+'" target="_blank" style="display:block;width:100%;margin-top:12px;background:#25D366;color:white;padding:14px;border-radius:12px;text-decoration:none;font-weight:bold;text-align:center">JA PAGUEI - ENVIAR COMPROVANTE</a><button onclick="go(\'home\')" style="width:100%;margin-top:12px;background:#eee;padding:12px;border-radius:12px;border:none">Voltar Home</button></div></div>';
-}
-document.getElementById('app').innerHTML=html;
-}
-function mudaMes(d){state.mes.setMonth(state.mes.getMonth()+d);render();}
-function selServ(id){for(let i=0;i<state.servs.length;i++){if(state.servs[i].id===id){state.servico=state.servs[i];}}go('cal');}
-function renderDias(){let el=document.getElementById('dias');if(!el)return;let ano=state.mes.getFullYear(),mes=state.mes.getMonth();let prim=new Date(ano,mes,1).getDay();let ult=new Date(ano,mes+1,0).getDate();let html='';for(let i=0;i<prim;i++)html+='<div></div>';for(let d=1;d<=ult;d++){let ds=ano+'-'+String(mes+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');html+='<button onclick="selDia(\''+ds+'\')" style="height:42px;border-radius:12px;border:none;background:#dcfce7;font-weight:bold">'+d+'</button>';}el.innerHTML=html;}
-function selDia(ds){state.data=ds;let hrs=['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00'];let h='<div style="background:white;padding:16px;border-radius:16px;box-shadow:0 2px 8px #0001"><p style="font-weight:bold">Horarios '+ds+'</p><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px">';for(let i=0;i<hrs.length;i++){h+='<button onclick="selHora(\''+hrs[i]+'\')" style="padding:10px;border-radius:12px;border:none;background:#FF69B4;color:white;font-weight:bold">'+hrs[i]+'</button>';}h+='</div></div>';document.getElementById('horas').innerHTML=h;}
-function selHora(hr){state.hora=hr;go('conf');}
-function confirmar(){go('pix');}
-function login(){let n=document.getElementById('nome').value;let z=document.getElementById('zap').value;if(n.length<3){alert('Nome curto');return;}state.user={nome:n,whatsapp:z};go('servs');}
-render();
-<\/script></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width">
+<title>Veronica Nails</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
+body{background:#fff0f5;padding:20px}
+.container{max-width:420px;margin:0 auto;background:white;border-radius:24px;box-shadow:0 10px 40px rgba(0,0,0,.1);overflow:hidden}
+.header{background:linear-gradient(135deg,#ff5a9e,#ff8fab);color:white;padding:28px;text-align:center}
+.header h1{font-size:28px;font-weight:800}
+.form{padding:24px;display:flex;flex-direction:column;gap:16px}
+input,select{width:100%;padding:14px;border-radius:12px;border:1.5px solid #ffd1dc}
+button{background:#ff5a9e;color:white;border:none;padding:16px;border-radius:12px;font-weight:700;cursor:pointer}
+.card{background:#fff7f9;border:1px solid #ffd1dc;padding:14px;border-radius:12px;margin-top:12px;display:flex;justify-content:space-between}
+</style></head>
+<body>
+<div class="container">
+<div class="header"><h1>💅 Veronica Nails</h1><p>Agendamento rápido</p></div>
+<div class="form">
+<input id="nome" placeholder="Nome da cliente">
+<select id="servico"><option>Alongamento em Gel</option><option>Manicure Russa</option><option>Esmaltação em Gel</option><option>Manutenção</option></select>
+<div style="display:flex;gap:10px"><input id="data" type="date" style="flex:1"><input id="hora" type="time" style="flex:1"></div>
+<button onclick="agendar()">Agendar Horário</button>
+</div>
+<div id="lista" style="padding:0 24px 24px"></div>
+</div>
+<script>
+function load(){let d=JSON.parse(localStorage.getItem('vn')||'[]');document.getElementById('lista').innerHTML=d.length?d.map((a,i)=>`<div class=card><div><b>${a.nome}</b><br>${a.servico} - ${a.data} ${a.hora}</div><span onclick="let x=JSON.parse(localStorage.getItem('vn')||'[]');x.splice(${i},1);localStorage.setItem('vn',JSON.stringify(x));location.reload()" style="cursor:pointer">🗑️</span></div>`).join(''):'<p style=text-align:center;color:#999>Nenhum agendamento</p>'}
+function agendar(){let n=document.getElementById('nome').value,d=document.getElementById('data').value,h=document.getElementById('hora').value,s=document.getElementById('servico').value;if(!n||!d||!h)return alert('Preencha tudo');let a=JSON.parse(localStorage.getItem('vn')||'[]');a.push({nome:n,servico:s,data:d.split('-').reverse().join('/'),hora:h});localStorage.setItem('vn',JSON.stringify(a));location.reload()}
+load();document.getElementById('data').valueAsDate=new Date();
+</script>
+</body>
+</html>

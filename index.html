@@ -1,31 +1,79 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Veronica Nails 💅</title>
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui}
-body{background:linear-gradient(135deg,#FF69B4,#C48BBF);min-height:100vh;padding:15px}
-.app{max-width:460px;margin:0 auto;background:white;border-radius:24px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.2)}
-.header{background:linear-gradient(135deg,#FF69B4,#ff8fab);color:white;padding:28px;text-align:center}
-.header h1{font-size:30px;font-weight:900}
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
+body{background:linear-gradient(135deg,#FF69B4,#d88cc5);min-height:100vh;padding:12px}
+.box{max-width:460px;margin:0 auto;background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 15px 40px rgba(0,0,0,.2)}
+.head{background:#FF69B4;color:#fff;padding:26px;text-align:center}
+.head h1{font-size:28px;font-weight:900}
 .tabs{display:flex;background:#fff0f5}
-.tab{flex:1;padding:14px;text-align:center;cursor:pointer;font-weight:800;color:#ff5a9e;font-size:13px}
-.tab.active{background:white;border-top:3px solid #ff5a9e}
-.form{padding:22px;display:flex;flex-direction:column;gap:12px}
-input,select{width:100%;padding:14px;border-radius:12px;border:1.5px solid #ffd1dc;background:#fffafb}
-button{background:#FF69B4;color:white;border:none;padding:15px;border-radius:12px;font-weight:800;cursor:pointer}
+.tab{flex:1;padding:14px;text-align:center;font-weight:800;color:#FF69B4;cursor:pointer;font-size:14px}
+.tab.active{background:#fff;border-top:3px solid #FF69B4}
+.content{padding:20px;display:flex;flex-direction:column;gap:12px}
+input,select{width:100%;padding:14px;border-radius:12px;border:1.5px solid #ffd1dc;background:#fffafb;font-size:15px}
+button{background:#FF69B4;color:#fff;border:none;padding:14px;border-radius:12px;font-weight:800;cursor:pointer}
 button.green{background:#25D366}
-.card{background:#fff7f9;border:1px solid #ffd1dc;padding:12px;border-radius:12px;margin-top:10px;display:flex;justify-content:space-between}
-.hidden{display:none}
-.pixBox{background:#f0fff4;border:2px dashed #25D366;padding:16px;border-radius:16px;text-align:center;margin-top:12px}
+.card{background:#fff7f9;border:1px solid #ffd1dc;padding:12px;border-radius:12px;margin-top:8px;display:flex;justify-content:space-between;align-items:center}
+.hidden{display:none!important}
+.pix{background:#f0fff4;border:2px dashed #25D366;padding:14px;border-radius:14px;text-align:center}
 </style>
 </head>
 <body>
-<div class="app">
-<div class="header"><h1>Veronica Nails 💅</h1><p>Espaço Beleza - Suas unhas perfeitas começam aqui</p></div>
-<div class="tabs"><div class="tab active" onclick="showTab('c')">Agendar</div><div class="tab" onclick="showTab('m')">Meus</div><div class="tab" onclick="showTab('a')">Admin</div></div>
+<div class="box">
+<div class="head"><h1>Veronica Nails 💅</h1><div>Espaço Beleza - Suas unhas perfeitas começam aqui</div></div>
+<div class="tabs"><div id="t1" class="tab active" onclick="tab('c')">Agendar</div><div id="t2" class="tab" onclick="tab('m')">Meus</div><div id="t3" class="tab" onclick="tab('a')">Admin</div></div>
 
-<div id="tab-c" class="form">
-<label
+<div id="c" class="content">
+<input id="nome" placeholder="Seu nome completo">
+<input id="zap" placeholder="WhatsApp com DDD ex: 19997477168" type="tel">
+<select id="serv"></select>
+<div style="display:flex;gap:8px"><input id="data" type="date" style="flex:1"><select id="hora" style="flex:1"><option>08:00</option><option>09:00</option><option>10:00</option><option>11:00</option><option>13:00</option><option>14:00</option><option>15:00</option><option>16:00</option><option>17:00</option><option>18:00</option><option>19:00</option></select></div>
+<button onclick="pagar()">Confirmar e Ver PIX 💖</button>
+<div style="text-align:center"><a href="https://wa.me/5519997477168" style="color:#25D366;font-size:13px">💬 Falar com Verônica</a></div>
+</div>
+
+<div id="pix" class="content hidden">
+<h3 style="text-align:center">Pague com PIX</h3>
+<div id="resumo" style="text-align:center;font-size:14px"></div>
+<div class="pix">
+<p style="font-size:12px">Chave PIX Verônica</p><b style="font-size:11px;word-break:break-all">1a541344-5f92-41e8-9a5d-02822562ed9b</b><br><br>
+<input id="codigoPix" readonly style="font-size:10px">
+<button onclick="copyPix()" style="margin-top:8px;width:100%">📋 COPIAR CÓDIGO PIX</button>
+</div>
+<button class="green" onclick="jaPaguei()">✅ Já paguei, enviar comprovante</button>
+<button onclick="tab('c')" style="background:#eee;color:#666">Voltar</button>
+</div>
+
+<div id="m" class="content hidden"><input id="busca" placeholder="Digite seu WhatsApp pra ver" oninput="renderMeus()"><div id="listMeus"></div></div>
+
+<div id="a" class="content hidden">
+<div id="loginA"><input id="senha" type="password" placeholder="Senha admin"><button onclick="login()" style="width:100%;margin-top:8px">Entrar</button><p style="font-size:11px;color:#999;text-align:center">Senha: veve1445</p></div>
+<div id="panelA" class="hidden">
+<div style="background:#fff0f5;padding:10px;border-radius:12px"><b>Link clientes:</b> <span style="font-size:11px">marcio18894.github.io/veronica-nails</span><br><button onclick="navigator.clipboard.writeText('https://marcio18894.github.io/veronica-nails');alert('Copiado!')" style="margin-top:6px;padding:8px;width:100%">Copiar Link</button></div>
+<div style="background:#e8ffe8;padding:10px;border-radius:12px;margin-top:10px"><label style="font-size:11px">Chave PIX (já salva)</label><input id="pixAdmin" value="1a541344-5f92-41e8-9a5d-02822562ed9b"></div>
+<div id="dash" style="margin-top:10px"></div><div id="listAdmin"></div>
+<button onclick="localStorage.removeItem('adm');location.reload()" style="background:#eee;color:#666;margin-top:12px;width:100%">Sair</button>
+</div>
+</div>
+</div>
+
+<script>
+const PIX="1a541344-5f92-41e8-9a5d-02822562ed9b";
+let servs=JSON.parse(localStorage.getItem('vn_s')||'[{"n":"Manicure","p":35},{"n":"Pedicure","p":40},{"n":"Mãos e Pés","p":70},{"n":"Gel","p":120},{"n":"Fibra","p":150}]');
+let ag=JSON.parse(localStorage.getItem('vn_a')||'[]');
+function tab(t){document.getElementById('c').classList.add('hidden');document.getElementById('m').classList.add('hidden');document.getElementById('a').classList.add('hidden');document.getElementById('pix').classList.add('hidden');document.getElementById('t1').classList.remove('active');document.getElementById('t2').classList.remove('active');document.getElementById('t3').classList.remove('active');if(t==='c'){document.getElementById('c').classList.remove('hidden');document.getElementById('t1').classList.add('active')}if(t==='m'){document.getElementById('m').classList.remove('hidden');document.getElementById('t2').classList.add('active');renderMeus()}if(t==='a'){document.getElementById('a').classList.remove('hidden');document.getElementById('t3').classList.add('active');renderAdmin()}if(t==='pix'){document.getElementById('pix').classList.remove('hidden')}}
+function renderServ(){document.getElementById('serv').innerHTML=servs.map(s=>`<option value="${s.n}|${s.p}">${s.n} - R$${s.p}</option>`).join('')}
+function pagar(){let n=document.getElementById('nome').value.trim(),z=document.getElementById('zap').value.trim(),s=document.getElementById('serv').value,d=document.getElementById('data').value,h=document.getElementById('hora').value;if(n.length<3)return alert('Nome mínimo 3 letras');if(z.length<10)return alert('WhatsApp com DDD');if(!d)return alert('Escolha data');let [ns,pr]=s.split('|');let cod=`00020126360014BR.GOV.BCB.PIX01136${PIX}520400005303986540${Number(pr).toFixed(2)}5802BR5920VERONICA NAILS6009GERTRUDES62070503***6304`;document.getElementById('resumo').innerHTML=`<b>${n}</b><br>${ns}<br>${d.split('-').reverse().join('/')} às ${h}<br><b style="font-size:20px;color:#FF69B4">R$ ${pr}</b>`;document.getElementById('codigoPix').value=cod;let lista=JSON.parse(localStorage.getItem('vn_a')||'[]');lista.push({nome:n,zap:z,serv:ns,valor:pr,data:d,display:d.split('-').reverse().join('/'),hora:h,status:'aguardando_pix'});localStorage.setItem('vn_a',JSON.stringify(lista));ag=lista;tab('pix')}
+function copyPix(){let i=document.getElementById('codigoPix');i.select();document.execCommand('copy');alert('PIX copiado! Cole no banco 💖')}
+function jaPaguei(){let lista=JSON.parse(localStorage.getItem('vn_a')||'[]');let u=lista[lista.length-1];window.open(`https://wa.me/5519997477168?text=Oi%20Verônica!%20Paguei%20PIX%20R$%20${u.valor}%20dia%20${u.display}%20${u.hora}%20${u.serv}`);alert('Enviado! Aguarde confirmação');tab('m');document.getElementById('busca').value=u.zap;renderMeus()}
+function renderMeus(){let b=document.getElementById('busca').value.trim(),lista=JSON.parse(localStorage.getItem('vn_a')||'[]'),f=b?lista.filter(a=>a.zap.includes(b)):[];document.getElementById('listMeus').innerHTML=f.length?f.map(a=>`<div class=card><div><b>${a.serv} R$${a.valor}</b><br>${a.display} ${a.hora} - ${a.status}</div></div>`).join(''):'<p style=text-align:center;color:#999>Digite seu WhatsApp</p>'}
+function login(){if(document.getElementById('senha').value==='veve1445'){localStorage.setItem('adm','1');document.getElementById('loginA').classList.add('hidden');document.getElementById('panelA').classList.remove('hidden');renderAdmin()}else alert('Senha errada')}
+function renderAdmin(){let lista=JSON.parse(localStorage.getItem('vn_a')||'[]');document.getElementById('dash').innerHTML=`<div style="background:#ffe3ec;padding:10px;border-radius:10px;text-align:center">Total: ${lista.length} | R$ ${lista.reduce((s,a)=>s+Number(a.valor),0)}</div>`;document.getElementById('listAdmin').innerHTML=lista.slice().reverse().map((a,i)=>`<div class=card><div><b>${a.hora} ${a.nome}</b><br>${a.serv} R$${a.valor} ${a.display}<br><a href="https://wa.me/55${a.zap}" target="_blank" style="color:#25D366;font-size:12px">WhatsApp</a></div><span onclick="let l=JSON.parse(localStorage.getItem('vn_a')||'[]');l.splice(${lista.length-1-i},1);localStorage.setItem('vn_a',JSON.stringify(l));renderAdmin()" style="cursor:pointer">🗑️</span></div>`).join('')}
+renderServ();document.getElementById('data').valueAsDate=new Date();if(localStorage.getItem('adm')){document.getElementById('loginA').classList.add('hidden');document.getElementById('panelA').classList.remove('hidden');renderAdmin()}
+</script>
+</body>
+</html>

@@ -1,40 +1,103 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Veronica Nails 💅 V9</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
-body{background:linear-gradient(135deg,#FF69B4,#e18ac7);min-height:100vh;padding:12px}
-.box{max-width:480px;margin:0 auto;background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 15px 40px rgba(0,0,0,.2)}
-.head{background:#FF69B4;color:#fff;padding:18px;text-align:center}
-.tabs{display:flex;background:#fff0f5}.tab{flex:1;padding:12px;text-align:center;font-weight:800;color:#FF69B4;cursor:pointer;font-size:13px}.tab.active{background:#fff;border-top:3px solid #FF69B4}
-.content{padding:16px;display:flex;flex-direction:column;gap:10px}
-input,select{width:100%;padding:13px;border-radius:12px;border:1.5px solid #ffd1dc;background:#fffafb}
-button{background:#FF69B4;color:#fff;border:none;padding:13px;border-radius:12px;font-weight:800;cursor:pointer}button.green{background:#25D366}button.gray{background:#eee;color:#666}
-.card{background:#fff7f9;border:1px solid #ffd1dc;padding:10px;border-radius:12px;margin-top:8px;display:flex;justify-content:space-between;align-items:center}
-.hidden{display:none!important}.miniTabs{display:flex;gap:5px}.miniTab{flex:1;padding:8px;background:#fff0f5;border-radius:8px;text-align:center;font-size:11px;font-weight:800;color:#FF69B4;cursor:pointer}.miniTab.active{background:#FF69B4;color:#fff}
-.pix{background:#f0fff4;border:2px dashed #25D366;padding:12px;border-radius:12px;text-align:center}.badge{font-size:10px;padding:3px 7px;border-radius:20px;font-weight:700}.badge-ok{background:#d4edda;color:#155724}.badge-pix{background:#fff3cd;color:#856404}.badge-cancel{background:#f8d7da;color:#721c24}
-</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Espaço Beleza - Verônica</title>
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<div class="box">
-<div class="head"><h1>Veronica Nails 💅</h1><div style="font-size:11px">V9 - PIX 05446854442 válido - Sem NaN</div></div>
-<div class="tabs"><div id="t1" class="tab active" onclick="tab('c')">Agendar</div><div id="t2" class="tab" onclick="tab('m')">Meus</div><div id="t3" class="tab" onclick="tab('a')">Admin</div></div>
-
-<div id="c" class="content">
-<input id="nome" placeholder="Seu nome"><input id="zap" placeholder="WhatsApp 11999999999">
-<select id="serv"></select>
-<div style="display:flex;gap:8px"><input id="data" type="date" style="flex:1"><select id="hora" style="flex:1"></select></div>
-<div id="aviso" style="font-size:12px;color:red;text-align:center"></div>
-<button id="btnAgendar" onclick="pagar()">Confirmar e Ver PIX 💖</button>
-</div>
-
-<div id="pix" class="content hidden">
-<h3 style="text-align:center">Pague com PIX</h3><div id="resumo" style="text-align:center"></div>
-<div class="pix"><b>Chave: 05446854442</b><br><small>Veronica Nails</small><br><br><input id="codigoPix" readonly style="font-size:9px"><button onclick="copyPix()" style="width:100%;margin-top:6px">📋 COPIAR CÓDIGO PIX</button><div style="font-size:9px;color:#666;margin-top:6px">Código testado: sem NaN, válido em qualquer banco</div></div>
-<button class="green" onclick="jaPaguei()">✅ Já paguei</button><button class="gray" onclick="tab('c')">Voltar</button>
+<body class="bg-[#FFF8F0] min-h-screen">
+<div id="app"></div>
+<script>
+const SERVICOS = [
+  {id:'1', nome:'💅 - ALONGAMENTO EM GEL', preco:150, tempo:'2h30'},
+  {id:'2', nome:'🤙 - BANHO DE GEL', preco:90, tempo:'1h30'},
+  {id:'3', nome:'🤙 - BLINDAGEM', preco:80, tempo:'1h30'},
+  {id:'4', nome:'👣 - ESCALDA PÉS + CUTILAGEM', preco:60, tempo:'1h'},
+  {id:'5', nome:'🤙 - MANUTENÇÃO', preco:100, tempo:'2h'},
+  {id:'6', nome:'🤙 - MÃO TRADICIONAL', preco:35, tempo:'40min'},
+  {id:'7', nome:'🦶🤚 - PE + MÃOS', preco:70, tempo:'1h30'},
+  {id:'8', nome:'🦶🦶 - PE ESMALTAÇÃO EM GEL', preco:70, tempo:'1h'},
+  {id:'9', nome:'👣👣 - PE PRÊMIO 🏆', preco:90, tempo:'1h30'},
+  {id:'10', nome:'🦶🦶 - PE TRADICIONAL', preco:40, tempo:'50min'},
+  {id:'11', nome:'👣 - PLÁSTICA DOS PÉS', preco:70, tempo:'1h'},
+  {id:'12', nome:'👣 - PLÁSTICA DOS PÉS MAIS CUTILAGEM ESMALTAÇÃO', preco:85, tempo:'1h20'},
+  {id:'13', nome:'🤙💅 - POSTIÇA REALISTA', preco:120, tempo:'2h'},
+  {id:'14', nome:'🤙 - REMOÇÃO DE ALONGAMENTO COM CUTILAGEM', preco:50, tempo:'1h'},
+  {id:'15', nome:'🦶🦶 - SPA DOS PÉ 👣', preco:65, tempo:'1h'},
+];
+const HORARIOS=["08:00","09:00","10:00","11:00","13:00","14:00","15:00","16:00","17:00","18:00"];
+const WHATSAPP="5519997477168";
+const SENHA="veve1445";
+let state={
+ tela:"home", servico:null, data:new Date().toISOString().split('T')[0], hora:"",
+ nome: localStorage.getItem("cliNome")||"", fone: localStorage.getItem("cliFone")||"",
+ agend: JSON.parse(localStorage.getItem("agendamentosV10")||"[]"),
+ diasF: JSON.parse(localStorage.getItem("diasFechados")||"[]"),
+ horF: JSON.parse(localStorage.getItem("horariosFechados")||"{}"),
+ logado: (()=>{let l=localStorage.getItem("adminLoginVeronica"); return l && Date.now()-parseInt(l)<48*60*60*1000})(),
+ dataAdmin: new Date().toISOString().split('T')[0], mesCal: new Date(), filtro:"TODOS", diaDetalhe:null, confirm:null, telaConfirm:false
+};
+function salvar(){localStorage.setItem("agendamentosV10",JSON.stringify(state.agend)); localStorage.setItem("diasFechados",JSON.stringify(state.diasF)); localStorage.setItem("horariosFechados",JSON.stringify(state.horF)); localStorage.setItem("cliNome",state.nome); localStorage.setItem("cliFone",state.fone);}
+function horariosLivres(data){if(state.diasF.includes(data))return[]; let bloq=state.horF[data]||[]; let ag=state.agend.filter(a=>a.data===data && a.status!=='cancelado').map(a=>a.hora); return HORARIOS.filter(h=>!bloq.includes(h)&&!ag.includes(h));}
+function countDia(data){return state.agend.filter(a=>a.data===data && a.status!=='cancelado').length;}
+function render(){
+ const app=document.getElementById("app");
+ if(state.tela==="home"){
+   app.innerHTML=`<div class="flex flex-col items-center p-6 max-w-md mx-auto">
+   <h1 class="text-4xl font-black text-pink-600 mt-10">ESPAÇO BELEZA</h1><p class="text-pink-400 font-bold mt-1">Verônica • 15 serviços oficiais</p>
+   <div class="w-full bg-white p-4 rounded-2xl mt-6 shadow"><input id="nome" placeholder="Seu nome completo *" value="${state.nome}" class="w-full p-3 rounded-xl border mb-3"><input id="fone" placeholder="Seu WhatsApp *" value="${state.fone}" class="w-full p-3 rounded-xl border"></div>
+   <div class="w-full space-y-3 mt-6"><button onclick="goServ()" class="w-full bg-pink-500 text-white py-4 rounded-2xl font-bold shadow-lg">VER SERVIÇOS E AGENDAR</button><button onclick="state.tela='meus';render()" class="w-full bg-white border py-3 rounded-2xl font-bold">📜 Meus Agendamentos</button><button onclick="state.tela='admin';render()" class="w-full bg-black text-white py-3 rounded-2xl font-bold">SOU ADMIN 👑</button></div></div>`;
+   document.getElementById("nome").oninput=e=>state.nome=e.target.value;
+   document.getElementById("fone").oninput=e=>state.fone=e.target.value; return;
+ }
+ if(state.tela==="meus"){
+   let meus=state.agend.filter(a=>a.fone===state.fone || a.nome===state.nome);
+   app.innerHTML=`<div class="p-4 max-w-md mx-auto"><button onclick="state.tela='home';render()" class="text-pink-600">← Voltar</button><h2 class="text-xl font-bold mt-4">Seus Agendamentos</h2><p class="text-sm text-gray-500">Para cancelar, fale com a Verônica.</p><div class="mt-4 space-y-2">${meus.map(a=>`<div class="bg-white p-3 rounded-xl shadow flex justify-between"><div><p class="font-bold text-sm">${a.servico}</p><p class="text-xs">${a.data.split('-').reverse().join('/')} às ${a.hora} - ${a.status}</p></div><span class="font-bold text-pink-600">R$ ${a.preco}</span></div>`).join('')||'<p class="text-center text-gray-400 mt-10">Nenhum agendamento</p>'}</div></div>`; return;
+ }
+ if(state.tela==="servicos"){
+   app.innerHTML=`<div class="p-4 max-w-md mx-auto"><button onclick="state.tela='home';render()" class="text-pink-600">← Voltar</button><h2 class="text-2xl font-bold text-pink-600 mt-2">15 Procedimentos</h2><div class="grid gap-2 mt-4">${SERVICOS.map(s=>`<button onclick="selServ('${s.id}')" class="bg-white p-4 rounded-xl shadow flex justify-between text-left"><span class="font-bold text-sm flex-1">${s.nome}<br><span class="text-gray-400 font-normal">⏱ ${s.tempo}</span></span><span class="text-pink-600 font-black ml-2">R$ ${s.preco}</span></button>`).join('')}</div></div>`; return;
+ }
+ if(state.tela==="agendar"){
+   let livres=horariosLivres(state.data);
+   app.innerHTML=`<div class="p-4 max-w-md mx-auto"><button onclick="state.tela='servicos';render()" class="text-pink-600">← Voltar</button><h2 class="font-bold mt-2">${state.servico.nome}</h2><p class="text-pink-600 font-bold">R$ ${state.servico.preco} • ${state.servico.tempo}</p><input type="date" id="data" value="${state.data}" class="w-full mt-4 p-3 rounded-xl border bg-white">${state.diasF.includes(state.data)?'<p class="text-red-500 font-bold mt-3">🔴 Dia fechado</p>':`<div class="grid grid-cols-3 gap-2 mt-4">${livres.map(h=>`<button onclick="state.hora='${h}';render()" class="p-3 rounded-xl font-bold ${state.hora===h?'bg-pink-500 text-white':'bg-white shadow'}">${h}</button>`).join('')||'<p class="col-span-3 text-center text-gray-400">Sem horários livres</p>'}</div>`}${state.hora?`<button onclick="state.telaConfirm=true;render()" class="w-full mt-6 bg-pink-500 text-white py-4 rounded-xl font-bold">CONTINUAR</button>`:''}
+   ${state.telaConfirm?`<div class="fixed inset-0 bg-black/50 flex items-center justify-center p-6 z-50"><div class="bg-white p-6 rounded-2xl w-full max-w-sm"><h3 class="font-bold text-lg">Confirmar agendamento?</h3><p class="mt-2 text-sm">👤 ${state.nome}<br>💅 ${state.servico.nome}<br>📅 ${state.data.split('-').reverse().join('/')} às ${state.hora}<br>💰 R$ ${state.servico.preco}</p><div class="flex gap-2 mt-6"><button onclick="state.telaConfirm=false;render()" class="flex-1 bg-gray-100 py-3 rounded-xl font-bold">Cancelar</button><button onclick="finalizar()" class="flex-1 bg-pink-500 text-white py-3 rounded-xl font-bold">Sim, Agendar!</button></div></div></div>`:''}</div>`;
+   document.getElementById("data").onchange=e=>{state.data=e.target.value; state.hora=""; render();}; return;
+ }
+ if(state.tela==="admin"){
+   if(!state.logado){
+     app.innerHTML=`<div class="flex flex-col items-center p-6 max-w-md mx-auto"><button onclick="state.tela='home';render()" class="self-start text-pink-600">← Voltar</button><h2 class="text-2xl font-bold text-pink-600 mt-10">Painel Verônica</h2><p class="text-sm">Login fixo: Verônica | Senha: veve1445 | 48h logada</p><input type="password" id="sen" placeholder="Senha" class="w-full mt-6 p-3 rounded-xl border bg-white"><button onclick="login()" class="w-full mt-3 bg-pink-500 text-white py-3 rounded-xl font-bold">ENTRAR</button></div>`; return;
+   }
+   let agDia=state.agend.filter(a=>a.data===state.dataAdmin);
+   let receita=agDia.filter(a=>a.status==='concluido').reduce((s,a)=>s+a.preco,0);
+   let total=agDia.filter(a=>a.status!=='cancelado').length;
+   let filtrados=state.filtro==="TODOS"?state.agend:state.agend.filter(a=>a.status===state.filtro.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,""));
+   let mes=state.mesCal; let diasMes=new Date(mes.getFullYear(), mes.getMonth()+1,0).getDate(); let primeiro=new Date(mes.getFullYear(), mes.getMonth(),1).getDay();
+   let calHtml=''; for(let i=0;i<primeiro;i++) calHtml+=`<div></div>`; for(let d=1;d<=diasMes;d++){let ds=`${mes.getFullYear()}-${String(mes.getMonth()+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`; let c=countDia(ds); let sel=ds===state.dataAdmin; let fech=state.diasF.includes(ds); calHtml+=`<button onclick="state.dataAdmin='${ds}';render()" class="relative p-2 rounded-xl text-sm ${sel?'bg-pink-500 text-white':fech?'bg-red-100 line-through':'bg-pink-50'}">${d}${c>0?`<span class="absolute -top-1 -right-1 bg-pink-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">${c}</span>`:''}</button>`;}
+   app.innerHTML=`<div class="p-4 max-w-md mx-auto pb-20"><div class="flex justify-between"><h2 class="font-bold text-pink-600">Olá, Verônica! 👑</h2><button onclick="state.logado=false;localStorage.removeItem('adminLoginVeronica');state.tela='home';render()" class="text-pink-600">Sair</button></div>
+   <div class="bg-gradient-to-r from-pink-500 to-pink-400 p-4 rounded-2xl mt-4 text-white"><h3 class="font-bold">📲 Link de agendamento</h3><div class="bg-white rounded-xl p-2 mt-2 flex gap-2"><input value="${location.href}" readonly class="flex-1 text-gray-600 text-xs outline-none"><button onclick="navigator.clipboard.writeText(location.href);alert('Link copiado!')" class="bg-pink-500 text-white px-3 py-1 rounded-lg text-xs font-bold">COPIAR</button></div><button onclick="window.open('https://wa.me/?text='+encodeURIComponent('Olá! Agende aqui: '+location.href),'_blank')" class="w-full bg-white text-pink-500 mt-2 py-2 rounded-xl font-bold text-sm">ENVIAR NO WHATSAPP</button></div>
+   <div class="bg-white p-4 rounded-2xl mt-4 shadow"><div class="flex justify-between items-center"><button onclick="state.mesCal=new Date(state.mesCal.getFullYear(), state.mesCal.getMonth()-1);render()" class="font-bold"><</button><h3 class="font-bold">${mes.toLocaleDateString('pt-BR',{month:'long',year:'numeric'})}</h3><button onclick="state.mesCal=new Date(state.mesCal.getFullYear(), state.mesCal.getMonth()+1);render()" class="font-bold">></button></div><div class="grid grid-cols-7 gap-1 mt-3 text-center text-xs"><span class="font-bold text-gray-400">D</span><span class="font-bold text-gray-400">S</span><span class="font-bold text-gray-400">T</span><span class="font-bold text-gray-400">Q</span><span class="font-bold text-gray-400">Q</span><span class="font-bold text-gray-400">S</span><span class="font-bold text-gray-400">S</span>${calHtml}</div></div>
+   <div class="bg-white p-4 rounded-2xl mt-4 shadow"><button onclick="state.diaDetalhe=state.dataAdmin;render()" class="w-full text-left"><h3 class="font-bold">📅 ${state.dataAdmin.split('-').reverse().join('/')} - ${total} agend. ${receita>0?'• R$ '+receita:''}</h3><p class="text-xs text-pink-500">Toque para detalhes →</p></button><div class="flex gap-2 mt-3"><button onclick="compLivres()" class="flex-1 bg-pink-100 text-pink-600 py-2 rounded-xl text-xs font-bold">📤 Compartilhar livres</button><button onclick="toggleDia()" class="flex-1 py-2 rounded-xl text-xs font-bold ${state.diasF.includes(state.dataAdmin)?'bg-red-500 text-white':'bg-gray-100'}">${state.diasF.includes(state.dataAdmin)?'Reabrir dia':'Fechar dia'}</button></div><div class="grid grid-cols-3 gap-2 mt-3">${HORARIOS.map(h=>{let f=(state.horF[state.dataAdmin]||[]).includes(h); return `<button onclick="toggleHora('${h}')" class="p-2 rounded-xl text-xs font-bold ${f?'bg-red-500 text-white':'bg-pink-50'}">${h}${f?' ✕':''}</button>`}).join('')}</div></div>
+   <div class="bg-white p-4 rounded-2xl mt-4 shadow"><h3 class="font-bold">📜 Histórico Completo</h3><div class="flex gap-1 mt-2 overflow-auto">${["TODOS","PENDENTES","CONCLUÍDOS","CANCELADOS"].map(f=>`<button onclick="state.filtro='${f}';render()" class="px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ${state.filtro===f?'bg-pink-500 text-white':'bg-gray-100'}">${f}</button>`).join('')}</div><div class="mt-3 space-y-1 max-h-96 overflow-auto">${filtrados.sort((a,b)=>b.id-a.id).map(a=>`<div class="border-b py-2 flex justify-between text-xs"><span>${a.data.split('-').reverse().join('/')} ${a.hora} - ${a.nome} - ${a.status}</span><span class="font-bold">R$ ${a.preco}</span></div>`).join('')}</div></div>
+   ${state.diaDetalhe?`<div class="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"><div class="bg-white p-4 rounded-2xl w-full max-w-md max-h-[80vh] overflow-auto"><div class="flex justify-between"><h3 class="font-bold">Detalhes ${state.diaDetalhe.split('-').reverse().join('/')}</h3><button onclick="state.diaDetalhe=null;render()" class="font-bold">X</button></div><div class="mt-3 space-y-2">${state.agend.filter(a=>a.data===state.diaDetalhe).map(a=>`<div class="border p-3 rounded-xl"><p class="font-bold text-sm">${a.hora} - ${a.nome} (${a.status})</p><p class="text-xs">${a.servico} - R$ ${a.preco} - ${a.fone}</p><div class="flex gap-2 mt-2">${a.status==='pendente'?`<button onclick="abrirConf(${a.id})" class="flex-1 bg-green-500 text-white py-1 rounded-lg text-xs font-bold">Concluir ✅</button><button onclick="cancelarAg(${a.id})" class="flex-1 bg-red-100 text-red-600 py-1 rounded-lg text-xs">Cancelar 🗑️</button>`:`${a.status==='concluido'?`<button onclick="voltarPend(${a.id})" class="w-full bg-yellow-100 text-yellow-700 py-1 rounded-lg text-xs">↩️ Voltar para Pendente</button>`:''}`}</div></div>`).join('')||'<p class="text-center text-gray-400 mt-10">Nenhum agendamento neste dia</p>'}</div></div></div>`:''}
+   ${state.confirm?`<div class="fixed inset-0 bg-black/50 flex items-center justify-center p-6 z-50"><div class="bg-white p-6 rounded-2xl w-full max-w-sm text-center"><h3 class="font-bold">Tem certeza?</h3><p class="text-sm mt-2">Concluir procedimento de ${state.confirm.nome} às ${state.confirm.hora}? R$ ${state.confirm.preco} vai para Receita.</p><div class="flex gap-2 mt-6"><button onclick="state.confirm=null;render()" class="flex-1 bg-gray-100 py-3 rounded-xl font-bold">Cancelar</button><button onclick="concluirAg(${state.confirm.id})" class="flex-1 bg-green-500 text-white py-3 rounded-xl font-bold">Sim, Concluir</button></div></div></div>`:''}
+   </div>`;
+}
+function goServ(){if(!state.nome||!state.fone){alert("⚠️ Preencha nome e WhatsApp!");return;} salvar(); state.tela="servicos"; render();}
+function selServ(id){state.servico=SERVICOS.find(s=>s.id===id); state.tela="agendar"; render();}
+function finalizar(){let novo={id:Date.now(),nome:state.nome,fone:state.fone,servico:state.servico.nome,preco:state.servico.preco,data:state.data,hora:state.hora,status:'pendente'}; state.agend.push(novo); salvar(); let msg=`*💅 ESPAÇO BELEZA - NOVO*%0A👤 ${state.nome}%0A📱 ${state.fone}%0A💅 ${state.servico.nome} - R$ ${state.servico.preco}%0A📅 ${state.data.split('-').reverse().join('/')} ⏰ ${state.hora}`; window.open(`https://wa.me/${WHATSAPP}?text=${msg}`,"_blank"); state.telaConfirm=false; state.tela="home"; state.hora=""; render(); alert("✅ Agendado com sucesso! Verônica recebeu no WhatsApp.");}
+function login(){let s=document.getElementById("sen").value; if(s===SENHA){state.logado=true; localStorage.setItem("adminLoginVeronica",Date.now().toString()); render();} else alert("Senha errada: veve1445");}
+function toggleDia(){let f=state.diasF.includes(state.dataAdmin); state.diasF=f?state.diasF.filter(d=>d!==state.dataAdmin):[...state.diasF,state.dataAdmin]; salvar(); render();}
+function toggleHora(h){let lista=state.horF[state.dataAdmin]||[]; let nova=lista.includes(h)?lista.filter(x=>x!==h):[...lista,h]; state.horF={...state.horF,[state.dataAdmin]:nova}; salvar(); render();}
+function compLivres(){let livres=horariosLivres(state.dataAdmin); let txt=`*Horários livres ${state.dataAdmin.split('-').reverse().join('/')}*%0A${livres.join(', ')||'Nenhum horário livre'}`; window.open(`https://wa.me/?text=${txt}`,"_blank");}
+function abrirConf(id){state.confirm=state.agend.find(a=>a.id===id); render();}
+function concluirAg(id){state.agend=state.agend.map(a=>a.id===id?{...a,status:'concluido'}:a); salvar(); let ag=state.agend.find(a=>a.id===id); state.confirm=null; state.diaDetalhe=null; render(); let msg=`Obrigada ${ag.nome}! Procedimento concluído 💅✨ - Verônica`; window.open(`https://wa.me/55${ag.fone.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`,"_blank");}
+function cancelarAg(id){if(!confirm("Cancelar? Vai liberar horário e avisar cliente."))return; let ag=state.agend.find(a=>a.id===id); state.agend=state.agend.map(a=>a.id===id?{...a,status:'cancelado'}:a); salvar(); render(); let msg=`Olá ${ag.nome}, seu horário ${ag.data.split('-').reverse().join('/')} às ${ag.hora} foi cancelado pela Verônica. Vamos reagendar?`; window.open(`https://wa.me/55${ag.fone.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`,"_blank");}
+function voltarPend(id){state.agend=state.agend.map(a=>a.id===id?{...a,status:'pendente'}:a); salvar(); render();}
+render();
+</script>
+</body>
+</html><button class="green" onclick="jaPaguei()">✅ Já paguei</button><button class="gray" onclick="tab('c')">Voltar</button>
 </div>
 
 <div id="m" class="content hidden"><input id="busca" placeholder="Seu WhatsApp" oninput="renderMeus()"><div id="listMeus"></div></div>

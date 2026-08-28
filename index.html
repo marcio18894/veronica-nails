@@ -1,40 +1,19 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Espaço Beleza - Verônica</title>
-<script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-[#FFF8F0] min-h-screen">
-<div id="app"></div>
-<script>
-const SERVICOS = [
-  {id:'1', nome:'💅 - ALONGAMENTO EM GEL', preco:150, tempo:'2h30'},
-  {id:'2', nome:'🤙 - BANHO DE GEL', preco:90, tempo:'1h30'},
-  {id:'3', nome:'🤙 - BLINDAGEM', preco:80, tempo:'1h30'},
-  {id:'4', nome:'👣 - ESCALDA PÉS + CUTILAGEM', preco:60, tempo:'1h'},
-  {id:'5', nome:'🤙 - MANUTENÇÃO', preco:100, tempo:'2h'},
-  {id:'6', nome:'🤙 - MÃO TRADICIONAL', preco:35, tempo:'40min'},
-  {id:'7', nome:'🦶🤚 - PE + MÃOS', preco:70, tempo:'1h30'},
-  {id:'8', nome:'🦶🦶 - PE ESMALTAÇÃO EM GEL', preco:70, tempo:'1h'},
-  {id:'9', nome:'👣👣 - PE PRÊMIO 🏆', preco:90, tempo:'1h30'},
-  {id:'10', nome:'🦶🦶 - PE TRADICIONAL', preco:40, tempo:'50min'},
-  {id:'11', nome:'👣 - PLÁSTICA DOS PÉS', preco:70, tempo:'1h'},
-  {id:'12', nome:'👣 - PLÁSTICA DOS PÉS MAIS CUTILAGEM ESMALTAÇÃO', preco:85, tempo:'1h20'},
-  {id:'13', nome:'🤙💅 - POSTIÇA REALISTA', preco:120, tempo:'2h'},
-  {id:'14', nome:'🤙 - REMOÇÃO DE ALONGAMENTO COM CUTILAGEM', preco:50, tempo:'1h'},
-  {id:'15', nome:'🦶🦶 - SPA DOS PÉ 👣', preco:65, tempo:'1h'},
-];
-const HORARIOS=["08:00","09:00","10:00","11:00","13:00","14:00","15:00","16:00","17:00","18:00"];
-const WHATSAPP="5519997477168";
-const SENHA="veve1445";
-let state={
- tela:"home", servico:null, data:new Date().toISOString().split('T')[0], hora:"",
- nome: localStorage.getItem("cliNome")||"", fone: localStorage.getItem("cliFone")||"",
- agend: JSON.parse(localStorage.getItem("agendamentosV10")||"[]"),
- diasF: JSON.parse(localStorage.getItem("diasFechados")||"[]"),
- horF: JSON.parse(localStorage.getItem("horariosFechados")||"{}"),
+<!DOCTYPE html><html lang="pt-br"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Espaco Beleza Veronica</title><script src="https://cdn.tailwindcss.com"></script><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet"><style>body{font-family:Inter,sans-serif;background:#FFF8F0}.serif{font-family:'Playfair Display',serif}</style></head><body><div id="app"></div><script>
+var SERVICOS=[{n:"💅 ALONGAMENTO EM GEL",p:150,t:"2h30"},{n:"🤙 BANHO DE GEL",p:90,t:"1h30"},{n:"🤙 BLINDAGEM",p:80,t:"1h30"},{n:"👣 ESCALDA PÉS + CUTILAGEM",p:60,t:"1h"},{n:"🤙 MANUTENÇÃO",p:100,t:"2h"},{n:"🤙 MÃO TRADICIONAL",p:35,t:"40min"},{n:"🦶🤚 PE + MÃOS",p:70,t:"1h30"},{n:"🦶🦶 PE ESMALTAÇÃO EM GEL",p:70,t:"1h"},{n:"👣👣 PE PRÊMIO 🏆",p:90,t:"1h30"},{n:"🦶🦶 PE TRADICIONAL",p:40,t:"50min"},{n:"👣 PLÁSTICA DOS PÉS",p:70,t:"1h"},{n:"👣 PLÁSTICA + CUTILAGEM",p:85,t:"1h20"},{n:"🤙💅 POSTIÇA REALISTA",p:120,t:"2h"},{n:"🤙 REMOÇÃO COM CUTILAGEM",p:50,t:"1h"},{n:"🦶🦶 SPA DOS PÉ 👣",p:65,t:"1h"}];
+var HORAS=["08:00","09:00","10:00","11:00","13:00","14:00","15:00","16:00","17:00","18:00"];var WHATS="5519997477168";var nome="";var fone="";var dataSel=new Date().toISOString().split("T")[0];var horaSel="";var servSel=null;var ag=[];try{var tmp=localStorage.getItem("agV10");if(tmp)ag=JSON.parse(tmp);}catch(e){ag=[];}
+function saveLocal(){try{localStorage.setItem("agV10",JSON.stringify(ag));}catch(e){}}
+function home(){document.getElementById("app").innerHTML='<div class="max-w-sm mx-auto p-6"><div class="text-center mt-8"><h1 class="serif text-4xl font-bold" style="color:#5A2A27">ESPAÇO BELEZA</h1><p class="serif text-2xl" style="color:#C9A07A">Verônica</p></div><div class="bg-white p-5 rounded-3xl mt-8 shadow-sm border"><input id="n" placeholder="Seu nome *" class="w-full p-4 border rounded-xl mb-3 bg-[#FFF8F0]" value="'+nome+'"><input id="f" placeholder="Seu WhatsApp *" class="w-full p-4 border rounded-xl bg-[#FFF8F0]" value="'+fone+'"></div><button onclick="goServ()" class="w-full bg-[#D9A679] text-white py-4 rounded-2xl font-black mt-6">VER SERVIÇOS E AGENDAR →</button><button onclick="goMeus()" class="w-full bg-white border-2 border-[#2B1A1A] py-3.5 rounded-2xl font-bold mt-3 text-sm">📜 MEUS AGENDAMENTOS</button><a href="https://wa.me/'+WHATS+'" target="_blank" class="block w-full bg-[#25D366] text-white py-3 rounded-2xl font-bold mt-3 text-sm text-center">💬 FALAR COM VERÔNICA</a><button onclick="goLogin()" class="w-full bg-[#2B1A1A] text-white py-3 rounded-2xl font-bold mt-3 text-sm">SOU ADMIN 👑</button></div>';document.getElementById("n").oninput=function(e){nome=e.target.value;};document.getElementById("f").oninput=function(e){fone=e.target.value;};}
+function goServ(){if(nome.length<2||fone.length<8){alert("Digite nome e WhatsApp");return;}listaServ();}
+function goMeus(){var lista=ag.slice().reverse();var html='<div class="p-5 max-w-sm mx-auto"><button onclick="home()" class="text-[#D9A679] font-bold text-sm">← Voltar</button><h2 class="serif text-2xl font-bold mt-4" style="color:#5A2A27">Meus Agendamentos</h2>';if(lista.length==0){html+='<div class="bg-white p-6 rounded-2xl text-center border mt-4">Nenhum<br><button onclick="listaServ()" class="w-full bg-[#D9A679] text-white py-3 rounded-xl font-bold mt-4">Agendar</button></div>';}for(var i=0;i<lista.length;i++){var a=lista[i];html+='<div class="bg-white p-4 rounded-2xl border mt-3"><b>'+a.servico+'</b><br>📅 '+a.data.split("-").reverse().join("/")+' às '+a.hora+' • R$ '+a.preco+'<br><span style="font-size:11px;padding:3px 8px;border-radius:20px;background:#FEF3C7">'+a.status.toUpperCase()+'</span><div class="mt-3 bg-amber-50 border p-3 rounded-xl"><p class="text-[11px] font-bold">❗ Para cancelar, fale com Verônica</p><a href="https://wa.me/'+WHATS+'" target="_blank" class="block w-full bg-[#25D366] text-white py-2 rounded-xl text-center text-xs font-black mt-2">💬 WHATSAPP VERÔNICA</a></div></div>';}html+='<a href="https://wa.me/'+WHATS+'" target="_blank" class="block w-full bg-[#25D366] text-white py-3 rounded-2xl font-bold mt-4 text-center">💬 CONTATO RÁPIDO</a><button onclick="home()" class="w-full bg-[#2B1A1A] text-white py-3 rounded-2xl font-bold mt-3 text-sm">Início</button></div>';document.getElementById("app").innerHTML=html;}
+function listaServ(){var h='<div class="p-5 max-w-sm mx-auto"><button onclick="home()" class="text-[#D9A679] font-bold text-sm">← Voltar</button><h2 class="serif text-2xl font-bold mt-4" style="color:#5A2A27">Nossos Serviços</h2><div class="grid gap-2 mt-5">';for(var i=0;i<SERVICOS.length;i++){var s=SERVICOS[i];h+='<button onclick="selServ('+i+')" class="bg-white p-4 rounded-2xl border flex justify-between text-left"><span class="font-bold text-sm">'+s.n+'<br><span class="text-xs text-gray-400">'+s.t+'</span></span><span class="bg-[#FFF8F0] text-[#D9A679] font-black px-3 py-1 rounded-full">R$ '+s.p+'</span></button>';}h+='</div></div>';document.getElementById("app").innerHTML=h;}
+function selServ(i){servSel=SERVICOS[i];telaData();}
+function telaData(){var html='<div class="p-5 max-w-sm mx-auto"><button onclick="listaServ()" class="text-[#D9A679] font-bold text-sm">← Voltar</button><div class="bg-white p-4 rounded-2xl mt-4 border"><h2 class="font-black">'+servSel.n+'</h2><p class="text-[#D9A679] font-bold">R$ '+servSel.p+' • '+servSel.t+'</p></div><p class="font-bold text-sm mt-5">Escolha o dia</p><input id="dt" type="date" value="'+dataSel+'" class="w-full mt-2 p-3 rounded-xl border bg-white"><p class="font-bold text-sm mt-5">Horários livres</p><div class="grid grid-cols-3 gap-2 mt-3">';for(var j=0;j<HORAS.length;j++){var h=HORAS[j];html+='<button onclick="selHora(\\''+h+'\\')" class="p-3 rounded-xl font-black bg-white border">'+h+'</button>';}html+='</div></div>';document.getElementById("app").innerHTML=html;document.getElementById("dt").onchange=function(e){dataSel=e.target.value;};}
+function selHora(h){horaSel=h;telaConf();}
+function telaConf(){document.getElementById("app").innerHTML='<div class="max-w-sm mx-auto p-5"><button onclick="telaData()" class="text-[#D9A679] font-bold text-sm">← Voltar</button><div class="bg-white rounded-3xl p-6 mt-5 shadow-lg border"><h2 class="serif text-2xl font-bold text-center" style="color:#5A2A27">Confirmar agendamento?</h2><div class="bg-[#FFF8F0] rounded-2xl p-4 mt-6 text-sm leading-7"><b>Cliente:</b> '+nome+'<br><b>Whats:</b> '+fone+'<br><br><b>Serviço:</b> '+servSel.n+'<br><b>Valor:</b> R$ '+servSel.p+'<br><b>Duração:</b> '+servSel.t+'<br><br><b>Data:</b> '+dataSel.split("-").reverse().join("/")+' às '+horaSel+'</div><button onclick="finalizar()" class="w-full bg-[#2B1A1A] text-white py-4 rounded-2xl font-black mt-5">✅ CONFIRMAR E ENVIAR PRA VERÔNICA 🚀</button></div></div>';}
+function finalizar(){var novo={id:Date.now(),nome:nome,fone:fone,servico:servSel.n,preco:servSel.p,tempo:servSel.t,data:dataSel,hora:horaSel,status:"pendente"};ag.push(novo);saveLocal();var url="https://wa.me/"+WHATS+"?text="+encodeURIComponent("💅 NOVO AGENDAMENTO - VERÔNICA\n\nCliente: "+nome+"\nWhats: "+fone+"\nServico: "+servSel.n+"\nR$ "+servSel.p+"\nData: "+dataSel.split("-").reverse().join("/")+" às "+horaSel);document.getElementById("app").innerHTML='<div class="max-w-sm mx-auto p-6 text-center"><div class="bg-white rounded-3xl p-7 mt-10 shadow-xl border"><div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto text-white text-3xl">✓</div><h2 class="serif text-3xl font-bold mt-5" style="color:#5A2A27">Confirmado!</h2><div class="bg-[#FFF8F0] rounded-2xl p-4 mt-6 text-left text-sm"><b>'+servSel.n+'</b><br>📅 '+dataSel.split("-").reverse().join("/")+' às '+horaSel+'<br>💰 R$ '+servSel.p+'</div><a href="'+url+'" target="_blank" class="block w-full bg-[#25D366] text-white py-4 rounded-2xl font-black mt-6">💬 ABRIR WHATSAPP DA VERÔNICA</a><button onclick="goMeus()" class="w-full bg-white border-2 border-[#2B1A1A] py-3 rounded-2xl font-bold mt-3 text-sm">📜 MEUS AGENDAMENTOS</button></div></div>';setTimeout(function(){window.open(url,"_blank");},800);}
+function goLogin(){var s=prompt("Senha:");if(s!=="veve1445")return;document.getElementById("app").innerHTML='<div class="p-5 max-w-md mx-auto"><h2 class="font-black">Admin OK R$ '+ag.filter(function(a){return a.status=="concluido"}).length+'</h2><button onclick="home()" class="text-[#D9A679] font-bold">Sair</button><div class="bg-white p-4 rounded-2xl mt-4 border">'+ag.slice().reverse().map(function(a){return '<div class="border-b py-2 text-xs flex justify-between"><div><b>'+a.data.split("-").reverse().join("/")+' '+a.hora+'</b> '+a.nome+' ('+a.status+')<br>'+a.servico+' R$ '+a.preco+'<br>'+a.fone+'</div><div><a href="https://wa.me/'+a.fone.replace(/\\D/g,'')+'" target="_blank" class="bg-[#25D366] text-white px-2 py-1 rounded-full text-[10px]">💬</a></div></div>'}).join('')+'</div></div>';}
+home();
+</script></body></html>horF: JSON.parse(localStorage.getItem("horariosFechados")||"{}"),
  logado: (()=>{let l=localStorage.getItem("adminLoginVeronica"); return l && Date.now()-parseInt(l)<48*60*60*1000})(),
  dataAdmin: new Date().toISOString().split('T')[0], mesCal: new Date(), filtro:"TODOS", diaDetalhe:null, confirm:null, telaConfirm:false
 };

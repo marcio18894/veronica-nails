@@ -1,40 +1,135 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Veronica Nails 💅</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Veronica Nails 💅 - V7 Final</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
-body{background:linear-gradient(135deg,#FF69B4,#d88cc5);min-height:100vh;padding:12px}
-.box{max-width:460px;margin:0 auto;background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 15px 40px rgba(0,0,0,.2)}
-.head{background:#FF69B4;color:#fff;padding:26px;text-align:center}
-.head h1{font-size:28px;font-weight:900}
+body{background:linear-gradient(135deg,#FF69B4,#e18ac7);min-height:100vh;padding:12px}
+.box{max-width:480px;margin:0 auto;background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 15px 40px rgba(0,0,0,.2)}
+.head{background:#FF69B4;color:#fff;padding:18px;text-align:center}
 .tabs{display:flex;background:#fff0f5}
-.tab{flex:1;padding:14px;text-align:center;font-weight:800;color:#FF69B4;cursor:pointer;font-size:14px}
+.tab{flex:1;padding:12px;text-align:center;font-weight:800;color:#FF69B4;cursor:pointer;font-size:13px}
 .tab.active{background:#fff;border-top:3px solid #FF69B4}
-.content{padding:20px;display:flex;flex-direction:column;gap:12px}
-input,select{width:100%;padding:14px;border-radius:12px;border:1.5px solid #ffd1dc;background:#fffafb;font-size:15px}
-button{background:#FF69B4;color:#fff;border:none;padding:14px;border-radius:12px;font-weight:800;cursor:pointer}
-button.green{background:#25D366}
-.card{background:#fff7f9;border:1px solid #ffd1dc;padding:12px;border-radius:12px;margin-top:8px;display:flex;justify-content:space-between;align-items:center}
+.content{padding:16px;display:flex;flex-direction:column;gap:10px}
+input,select{width:100%;padding:13px;border-radius:12px;border:1.5px solid #ffd1dc;background:#fffafb}
+button{background:#FF69B4;color:#fff;border:none;padding:13px;border-radius:12px;font-weight:800;cursor:pointer}
+button.green{background:#25D366}button.gray{background:#eee;color:#666}
+.card{background:#fff7f9;border:1px solid #ffd1dc;padding:10px;border-radius:12px;margin-top:8px;display:flex;justify-content:space-between;align-items:center}
 .hidden{display:none!important}
-.pix{background:#f0fff4;border:2px dashed #25D366;padding:14px;border-radius:14px;text-align:center}
+.miniTabs{display:flex;gap:5px}
+.miniTab{flex:1;padding:8px;background:#fff0f5;border-radius:8px;text-align:center;font-size:11px;font-weight:800;color:#FF69B4;cursor:pointer}
+.miniTab.active{background:#FF69B4;color:#fff}
+.pix{background:#f0fff4;border:2px dashed #25D366;padding:12px;border-radius:12px;text-align:center}
+.badge{font-size:10px;padding:3px 7px;border-radius:20px;font-weight:700}
+.badge-ok{background:#d4edda;color:#155724}.badge-pix{background:#fff3cd;color:#856404}.badge-cancel{background:#f8d7da;color:#721c24}
 </style>
 </head>
 <body>
 <div class="box">
-<div class="head"><h1>Veronica Nails 💅</h1><div>Espaço Beleza - Suas unhas perfeitas começam aqui</div></div>
+<div class="head"><h1>Veronica Nails 💅</h1><div style="font-size:11px">V7 - Chave fixa + Código certo</div></div>
 <div class="tabs"><div id="t1" class="tab active" onclick="tab('c')">Agendar</div><div id="t2" class="tab" onclick="tab('m')">Meus</div><div id="t3" class="tab" onclick="tab('a')">Admin</div></div>
 
 <div id="c" class="content">
-<input id="nome" placeholder="Seu nome completo">
-<input id="zap" placeholder="WhatsApp com DDD ex: 19997477168" type="tel">
+<input id="nome" placeholder="Seu nome"><input id="zap" placeholder="WhatsApp 11999999999">
 <select id="serv"></select>
-<div style="display:flex;gap:8px"><input id="data" type="date" style="flex:1"><select id="hora" style="flex:1"><option>08:00</option><option>09:00</option><option>10:00</option><option>11:00</option><option>13:00</option><option>14:00</option><option>15:00</option><option>16:00</option><option>17:00</option><option>18:00</option><option>19:00</option></select></div>
-<button onclick="pagar()">Confirmar e Ver PIX 💖</button>
-<div style="text-align:center"><a href="https://wa.me/5519997477168" style="color:#25D366;font-size:13px">💬 Falar com Verônica</a></div>
+<div style="display:flex;gap:8px"><input id="data" type="date" style="flex:1"><select id="hora" style="flex:1"></select></div>
+<div id="aviso" style="font-size:12px;color:red;text-align:center"></div>
+<button id="btnAgendar" onclick="pagar()">Confirmar e Ver PIX 💖</button>
 </div>
+
+<div id="pix" class="content hidden">
+<h3 style="text-align:center">Pague com PIX</h3><div id="resumo" style="text-align:center"></div>
+<div class="pix">
+<div style="font-size:12px">Chave PIX Verônica (fixa)</div><b id="chaveFixaDisplay" style="font-size:13px">05446854442</b><br><br>
+<div style="font-size:10px;color:#666;text-align:left">Código copia e cola (que o banco lê):</div><input id="codigoPix" readonly style="font-size:9px">
+<button onclick="copyPix()" style="width:100%;margin-top:6px">📋 COPIAR CÓDIGO PIX (GRANDÃO)</button>
+<div style="font-size:9px;color:#666;margin-top:4px">Esse grandão contém a chave 05446854442 dentro dele</div>
+</div>
+<button class="green" onclick="jaPaguei()">✅ Já paguei, enviar comprovante</button><button class="gray" onclick="tab('c')">Voltar</button>
+</div>
+
+<div id="m" class="content hidden"><input id="busca" placeholder="Seu WhatsApp" oninput="renderMeus()"><div id="listMeus"></div></div>
+
+<div id="a" class="content hidden">
+<div id="loginA"><input id="senha" type="password" placeholder="veve1445"><button onclick="login()" style="width:100%;margin-top:8px">Entrar</button></div>
+<div id="panelA" class="hidden">
+<div style="background:#e8ffe8;padding:10px;border-radius:10px"><label style="font-size:11px;font-weight:700">Chave PIX oficial (edita aqui e o código muda junto)</label><input id="pixAdmin" value="05446854442" oninput="atualizaChave()"><button onclick="salvarPix()" style="width:100%;margin-top:6px;padding:8px">Salvar Chave PIX</button></div>
+<div class="miniTabs" style="margin-top:10px"><div id="mt1" class="miniTab active" onclick="mtab('ag')">Agenda</div><div id="mt2" class="miniTab" onclick="mtab('sv')">Serviços</div><div id="mt3" class="miniTab" onclick="mtab('bl')">Bloqueios</div><div id="mt4" class="miniTab" onclick="mtab('fi')">Caixa</div></div>
+<div id="mt-ag"><div id="listAdmin"></div></div>
+<div id="mt-sv" class="hidden"><div style="display:flex;gap:6px"><input id="novoNome" placeholder="Nome"><input id="novoPreco" type="number" placeholder="R$" style="width:80px"><button onclick="addServ()">+</button></div><div id="listServAdmin"></div></div>
+<div id="mt-bl" class="hidden"><div style="display:flex;gap:6px"><input id="blockData" type="date"><button onclick="addBlockDia()">Bloquear Dia</button></div><div id="listBlockDias"></div><br><div style="display:flex;gap:6px"><input id="blockDataHora" type="date" style="flex:1"><select id="blockHora" style="flex:1"><option>08:00</option><option>09:00</option><option>10:00</option><option>11:00</option><option>13:00</option><option>14:00</option><option>15:00</option><option>16:00</option><option>17:00</option><option>18:00</option><option>19:00</option></select><button onclick="addBlockHora()">Bloquear Hora</button></div><div id="listBlockHoras"></div></div>
+<div id="mt-fi" class="hidden"><div id="faturamento"></div></div>
+</div>
+</div>
+</div>
+
+<script>
+const SUPA_URL="https://txwddvcwqjecsgdahljt.supabase.co";
+const SUPA_KEY="sb_publishable_G3-GURUQH_gnPXirvlVBow_ee5c68qt";
+const supa = supabase.createClient(SUPA_URL, SUPA_KEY);
+let ags=[], blockDias=[], blockHoras=[];
+
+function getPixKey(){return document.getElementById('pixAdmin')?.value?.trim() || localStorage.getItem('pixOficial') || "05446854442";}
+function atualizaChave(){let k=getPixKey();document.getElementById('chaveFixaDisplay').innerText=k;localStorage.setItem('pixOficial',k);}
+function salvarPix(){let k=getPixKey();localStorage.setItem('pixOficial',k);alert('Chave PIX salva! Agora o código grandão vai conter: '+k);}
+
+// GERA CÓDIGO GRANDÃO QUE CONTÉM A CHAVE FIXA DENTRO
+function geraPix(valor){
+  let chave = getPixKey();
+  function fmt(id,val){return id+String(val.length).padStart(2,'0')+val}
+  function crc16(s){let crc=0xFFFF;for(let i=0;i<s.length;i++){crc^=s.charCodeAt(i)<<8;for(let j=0;j<8;j++){crc=crc&0x8000?(crc<<1)^0x1021:crc<<1;crc&=0xFFFF}}return crc.toString(16).toUpperCase().padStart(4,'0')}
+  let payload=fmt('00','01')+fmt('26',fmt('00','BR.GOV.BCB.PIX')+fmt('01',chave))+fmt('52','0000')+fmt('53','986')+fmt('54',Number(valor).toFixed(2))+fmt('58','BR')+fmt('59','VERONICA NAILS')+fmt('60','SANTA GERTRUDES')+fmt('62',fmt('05','***'))+'6304';
+  return payload+crc16(payload);
+}
+
+function tab(t){['c','m','a','pix'].forEach(id=>document.getElementById(id).classList.add('hidden'));['t1','t2','t3'].forEach(id=>document.getElementById(id).classList.remove('active'));if(t==='c'){document.getElementById('c').classList.remove('hidden');document.getElementById('t1').classList.add('active')}if(t==='m'){document.getElementById('m').classList.remove('hidden');document.getElementById('t2').classList.add('active');renderMeus()}if(t==='a'){document.getElementById('a').classList.remove('hidden');document.getElementById('t3').classList.add('active');loadAdmin()}if(t==='pix'){document.getElementById('pix').classList.remove('hidden')}}
+function mtab(t){['mt-ag','mt-sv','mt-bl','mt-fi'].forEach(id=>document.getElementById(id).classList.add('hidden'));['mt1','mt2','mt3','mt4'].forEach(id=>document.getElementById(id).classList.remove('active'));if(t==='ag'){document.getElementById('mt-ag').classList.remove('hidden');document.getElementById('mt1').classList.add('active')}if(t==='sv'){document.getElementById('mt-sv').classList.remove('hidden');document.getElementById('mt2').classList.add('active')}if(t==='bl'){document.getElementById('mt-bl').classList.remove('hidden');document.getElementById('mt3').classList.add('active')}if(t==='fi'){document.getElementById('mt-fi').classList.remove('hidden');document.getElementById('mt4').classList.add('active');renderFatura()}}
+
+async function loadAll(){
+let {data:s}=await supa.from('servicos').select('*').eq('ativo',true).order('nome');document.getElementById('serv').innerHTML=s?.map(x=>`<option value="${x.nome}|${x.preco}">${x.nome} - R$${x.preco}</option>`).join('')||'<option>Cadastre no Admin</option>';
+let {data:bd}=await supa.from('bloqueios_dias').select('*');blockDias=bd?.map(b=>b.data)||[];
+let {data:bh}=await supa.from('bloqueios_horas').select('*');blockHoras=bh||[];
+let {data:agData}=await supa.from('agendamentos').select('*').order('created_at',{ascending:false});ags=agData||[];
+renderHoras();
+let saved=localStorage.getItem('pixOficial');if(saved){document.getElementById('pixAdmin').value=saved;document.getElementById('chaveFixaDisplay').innerText=saved;}
+}
+function renderHoras(){let d=document.getElementById('data').value;if(blockDias.includes(d)){document.getElementById('aviso').innerText='⛔ Dia bloqueado';document.getElementById('hora').innerHTML='<option>Fechado</option>';return}else document.getElementById('aviso').innerText='';let opts=[];["08:00","09:00","10:00","11:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00"].forEach(hh=>{let ocup=ags.some(a=>a.data===d&&a.hora===hh&&a.status!=='cancelado')||blockHoras.some(b=>b.data===d&&b.hora===hh);opts.push(`<option ${ocup?'disabled':''} value="${hh}">${hh} ${ocup?'(Ocupado)':''}</option>`)});document.getElementById('hora').innerHTML=opts.join('')}
+
+async function pagar(){
+let btn=document.getElementById('btnAgendar');btn.disabled=true;
+let n=document.getElementById('nome').value.trim(),z=document.getElementById('zap').value.trim(),s=document.getElementById('serv').value,d=document.getElementById('data').value,h=document.getElementById('hora').value;
+if(n.length<3||z.length<10||!d){alert('Preencha');btn.disabled=false;return}
+let {data:ocupado}=await supa.from('agendamentos').select('id').eq('data',d).eq('hora',h).neq('status','cancelado').limit(1);
+if(ocupado?.length){alert('Horário já ocupado!');await loadAll();btn.disabled=false;return}
+let [ns,pr]=s.split('|');let cod=geraPix(pr);
+document.getElementById('resumo').innerHTML=`<b>${n}</b><br>${ns} R$${pr}<br>${d.split('-').reverse().join('/')} ${h}`;
+document.getElementById('codigoPix').value=cod;
+await supa.from('agendamentos').insert([{nome:n,zap:z,servico:ns,valor:pr,data:d,display:d.split('-').reverse().join('/'),hora:h,status:'aguardando_pix'}]);
+btn.disabled=false;await loadAll();tab('pix');
+}
+function copyPix(){let i=document.getElementById('codigoPix');i.select();document.execCommand('copy');alert('✅ Copiado! Código grandão com a chave '+getPixKey()+' dentro. Cola no banco agora 💖');}
+async function jaPaguei(){let {data}=await supa.from('agendamentos').select('*').order('created_at',{ascending:false}).limit(1);let u=data[0];window.open(`https://wa.me/5519997477168?text=Oi%20Verônica!%20Paguei%20PIX%20R$${u.valor}%20${u.display}%20${u.hora}`);tab('m');document.getElementById('busca').value=u.zap;renderMeus()}
+async function renderMeus(){let b=document.getElementById('busca').value.trim();if(!b){document.getElementById('listMeus').innerHTML='Digite seu WhatsApp';return}let {data}=await supa.from('agendamentos').select('*').ilike('zap','%'+b+'%');document.getElementById('listMeus').innerHTML=data?.map(a=>`<div class=card><div><b>${a.servico} R$${a.valor}</b><br>${a.display} ${a.hora} - ${a.status}</div></div>`).join('')||'Nenhum'}
+async function login(){if(document.getElementById('senha').value!=='veve1445')return alert('Senha errada');localStorage.setItem('adm','1');document.getElementById('loginA').classList.add('hidden');document.getElementById('panelA').classList.remove('hidden');loadAdmin()}
+async function loadAdmin(){let {data}=await supa.from('agendamentos').select('*').order('created_at',{ascending:false});ags=data||[];document.getElementById('listAdmin').innerHTML=ags.map(a=>`<div class=card><div><b>${a.hora} ${a.nome}</b><br>${a.servico} R$${a.valor} ${a.display}<br><span class="badge ${a.status==='concluido'?'badge-ok':a.status==='cancelado'?'badge-cancel':'badge-pix'}">${a.status}</span></div><div><span onclick="concluir('${a.id}')" style="cursor:pointer">✅</span> <span onclick="cancelarAdmin('${a.id}')" style="cursor:pointer">🗑️</span></div></div>`).join('');renderServAdmin();renderBlocks();renderFatura()}
+async function concluir(id){await supa.from('agendamentos').update({status:'concluido'}).eq('id',id);loadAdmin()}
+async function cancelarAdmin(id){await supa.from('agendamentos').update({status:'cancelado'}).eq('id',id);loadAdmin();loadAll()}
+async function renderServAdmin(){let {data}=await supa.from('servicos').select('*');document.getElementById('listServAdmin').innerHTML=data?.map(s=>`<div class=card><span>${s.nome} R$${s.preco}</span><span><span onclick="delS('${s.id}')">🗑️</span></span></div>`).join('')}
+async function addServ(){let n=document.getElementById('novoNome').value,p=document.getElementById('novoPreco').value;await supa.from('servicos').insert([{nome:n,preco:p,ativo:true}]);renderServAdmin();loadAll()}
+async function delS(id){await supa.from('servicos').delete().eq('id',id);renderServAdmin();loadAll()}
+async function addBlockDia(){let d=document.getElementById('blockData').value;await supa.from('bloqueios_dias').insert([{data:d}]);loadAll();renderBlocks()}
+async function addBlockHora(){let d=document.getElementById('blockDataHora').value,h=document.getElementById('blockHora').value;await supa.from('bloqueios_horas').insert([{data:d,hora:h}]);loadAll();renderBlocks()}
+async function renderBlocks(){let {data:bd}=await supa.from('bloqueios_dias').select('*');document.getElementById('listBlockDias').innerHTML=bd?.map(b=>`<div class=card><span>${b.data}</span><span onclick="delBlockDia('${b.id}')">🗑️</span></div>`).join('')||'Nenhum';let {data:bh}=await supa.from('bloqueios_horas').select('*');document.getElementById('listBlockHoras').innerHTML=bh?.map(b=>`<div class=card><span>${b.data} ${b.hora}</span><span onclick="delBlockHora('${b.id}')">🗑️</span></div>`).join('')||'Nenhum'}
+async function delBlockDia(id){await supa.from('bloqueios_dias').delete().eq('id',id);renderBlocks();loadAll()}
+async function delBlockHora(id){await supa.from('bloqueios_horas').delete().eq('id',id);renderBlocks();loadAll()}
+function renderFatura(){let hoje=new Date().toISOString().slice(0,10);let faturar=l=>l.filter(a=>a.status==='concluido').reduce((s,a)=>s+Number(a.valor),0);document.getElementById('faturamento').innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div style="background:#d4edda;padding:10px;border-radius:10px;text-align:center">Hoje<br><b>R$ ${faturar(ags.filter(a=>a.data===hoje))}</b></div><div style="background:#e3e3ff;padding:10px;border-radius:10px;text-align:center">Total<br><b>R$ ${faturar(ags)}</b></div></div>`}
+
+loadAll();document.getElementById('data').valueAsDate=new Date();
+</script>
+</body>
+</html></div>
 
 <div id="pix" class="content hidden">
 <h3 style="text-align:center">Pague com PIX</h3>

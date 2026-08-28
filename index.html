@@ -1,14 +1,4 @@
-ass="w-full p-4 border rounded-xl mb-3 bg-[#FFF8F0]" value="'+nome+'"><input id="f" placeholder="Seu WhatsApp *" class="w-full p-4 border rounded-xl bg-[#FFF8F0]" value="'+fone+'"></div><button onclick="goServ()" class="w-full bg-[#D9A679] text-white py-4 rounded-2xl font-black mt-6">VER SERVIÇOS E AGENDAR →</button><button onclick="goMeus()" class="w-full bg-white border-2 border-[#2B1A1A] py-3.5 rounded-2xl font-bold mt-3 text-sm">📜 MEUS AGENDAMENTOS</button><a href="https://wa.me/'+WHATS+'" target="_blank" class="block w-full bg-[#25D366] text-white py-3 rounded-2xl font-bold mt-3 text-sm text-center">💬 FALAR COM VERÔNICA</a><button onclick="goLogin()" class="w-full bg-[#2B1A1A] text-white py-3 rounded-2xl font-bold mt-3 text-sm">SOU ADMIN 👑</button></div>';document.getElementById("n").oninput=function(e){nome=e.target.value;};document.getElementById("f").oninput=function(e){fone=e.target.value;};}
-function goServ(){if(nome.length<2||fone.length<8){alert("Digite nome e WhatsApp");return;}listaServ();}
-function goMeus(){var lista=ag.slice().reverse();var html='<div class="p-5 max-w-sm mx-auto"><button onclick="home()" class="text-[#D9A679] font-bold text-sm">← Voltar</button><h2 class="serif text-2xl font-bold mt-4" style="color:#5A2A27">Meus Agendamentos</h2>';if(lista.length==0){html+='<div class="bg-white p-6 rounded-2xl text-center border mt-4">Nenhum<br><button onclick="listaServ()" class="w-full bg-[#D9A679] text-white py-3 rounded-xl font-bold mt-4">Agendar</button></div>';}for(var i=0;i<lista.length;i++){var a=lista[i];html+='<div class="bg-white p-4 rounded-2xl border mt-3"><b>'+a.servico+'</b><br>📅 '+a.data.split("-").reverse().join("/")+' às '+a.hora+' • R$ '+a.preco+'<br><span style="font-size:11px;padding:3px 8px;border-radius:20px;background:#FEF3C7">'+a.status.toUpperCase()+'</span></div>';}html+='<button onclick="home()" class="w-full bg-[#2B1A1A] text-white py-3 rounded-2xl font-bold mt-3 text-sm">Início</button></div>';document.getElementById("app").innerHTML=html;}
-function listaServ(){var h='<div class="p-5 max-w-sm mx-auto"><button onclick="home()" class="text-[#D9A679] font-bold text-sm">← Voltar</button><h2 class="serif text-2xl font-bold mt-4" style="color:#5A2A27">Nossos Serviços</h2><div class="grid gap-2 mt-5">';for(var i=0;i<SERVICOS.length;i++){var s=SERVICOS[i];h+='<button onclick="selServ('+i+')" class="bg-white p-4 rounded-2xl border flex justify-between text-left"><span class="font-bold text-sm">'+s.n+'<br><span class="text-xs text-gray-400">'+s.t+'</span></span><span class="bg-[#FFF8F0] text-[#D9A679] font-black px-3 py-1 rounded-full">R$ '+s.p+'</span></button>';}h+=<!DOCTYPE html><html lang="pt-br"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Espaco Beleza Veronica</title><script src="https://cdn.tailwindcss.com"></script><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet"><style>body{font-family:Inter,sans-serif;background:#FFF8F0}.serif{font-family:'Playfair Display',serif}</style></head><body><div id="app"></div><script>
-var SERVICOS=[{n:"💅 ALONGAMENTO EM GEL",p:150,t:"2h30"},{n:"🤙 BANHO DE GEL",p:90,t:"1h30"},{n:"🤙 BLINDAGEM",p:80,t:"1h30"},{n:"👣 ESCALDA PÉS + CUTILAGEM",p:60,t:"1h"},{n:"🤙 MANUTENÇÃO",p:100,t:"2h"},{n:"🤙 MÃO TRADICIONAL",p:35,t:"40min"},{n:"🦶🤚 PE + MÃOS",p:70,t:"1h30"},{n:"🦶🦶 PE ESMALTAÇÃO EM GEL",p:70,t:"1h"},{n:"👣👣 PE PRÊMIO 🏆",p:90,t:"1h30"},{n:"🦶🦶 PE TRADICIONAL",p:40,t:"50min"},{n:"👣 PLÁSTICA DOS PÉS",p:70,t:"1h"},{n:"👣 PLÁSTICA + CUTILAGEM",p:85,t:"1h20"},{n:"🤙💅 POSTIÇA REALISTA",p:120,t:"2h"},{n:"🤙 REMOÇÃO COM CUTILAGEM",p:50,t:"1h"},{n:"🦶🦶 SPA DOS PÉ 👣",p:65,t:"1h"}];
-var HORAS=["08:00","09:00","10:00","11:00","13:00","14:00","15:00","16:00","17:00","18:00"];var WHATS="5519997477168";var nome="";var fone="";var dataSel=new Date().toISOString().split("T")[0];var horaSel="";var servSel=null;var ag=[];try{var tmp=localStorage.getItem("agV10");if(tmp)ag=JSON.parse(tmp);}catch(e){ag=[];}
-function saveLocal(){try{localStorage.setItem("agV10",JSON.stringify(ag));}catch(e){}}
-function home(){document.getElementById("app").innerHTML='<div class="max-w-sm mx-auto p-6"><div class="text-center mt-8"><h1 class="serif text-4xl font-bold" style="color:#5A2A27">ESPAÇO BELEZA</h1><p class="serif text-2xl" style="color:#C9A07A">Verônica</p></div><div class="bg-white p-5 rounded-3xl mt-8 shadow-sm border"><input id="n" placeholder="Seu nome *" class="w-full p-4 border rounded-xl mb-3 bg-[#FFF8F0]" value="'+nome+'"><input id="f" placeholder="Seu WhatsApp *" class="w-full p-4 border rounded-xl bg-[#FFF8F0]" value="'+fone+'"></div><button onclick="goServ()" class="w-full bg-[#D9A679] text-white py-4 rounded-2xl font-black mt-6">VER SERVIÇOS E AGENDAR →</button><button onclick="goMeus()" class="w-full bg-white border-2 border-[#2B1A1A] py-3.5 rounded-2xl font-bold mt-3 text-sm">📜 MEUS AGENDAMENTOS</button><a href="https://wa.me/'+WHATS+'" target="_blank" class="block w-full bg-[#25D366] text-white py-3 rounded-2xl font-bold mt-3 text-sm text-center">💬 FALAR COM VERÔNICA</a><button onclick="goLogin()" class="w-full bg-[#2B1A1A] text-white py-3 rounded-2xl font-bold mt-3 text-sm">SOU ADMIN 👑</button></div>';document.getElementById("n").oninput=function(e){nome=e.target.value;};document.getElementById("f").oninput=function(e){fone=e.target.value;};}
-function goServ(){if(nome.length<2||fone.length<8){alert("Digite nome e WhatsApp");return;}listaServ();}
-function goMeus(){var lista=ag.slice().reverse();var html='<div class="p-5 max-w-sm mx-auto"><button onclick="home()" class="text-[#D9A679] font-bold text-sm">← Voltar</button><h2 class="serif text-2xl font-bold mt-4" style="color:#5A2A27">Meus Agendamentos</h2>';if(lista.length==0){html+='<div class="bg-white p-6 rounded-2xl text-center border mt-4">Nenhum<br><button onclick="listaServ()" class="w-full bg-[#D9A679] text-white py-3 rounded-xl font-bold mt-4">Agendar</button></div>';}for(var i=0;i<lista.length;i++){var a=lista[i];html+='<div class="bg-white p-4 rounded-2xl border mt-3"><b>'+a.servico+'</b><br>📅 '+a.data.split("-").reverse().join("/")+' às '+a.hora+' • R$ '+a.preco+'<br><span style="font-size:11px;padding:3px 8px;border-radius:20px;background:#FEF3C7">'+a.status.toUpperCase()+'</span><div class="mt-3 bg-amber-50 border p-3 rounded-xl"><p class="text-[11px] font-bold">❗ Para cancelar, fale com Verônica</p><a href="https://wa.me/'+WHATS+'" target="_blank" class="block w-full bg-[#25D366] text-white py-2 rounded-xl text-center text-xs font-black mt-2">💬 WHATSAPP VERÔNICA</a></div></div>';}html+='<a href="https://wa.me/'+WHATS+'" target="_blank" class="block w-full bg-[#25D366] text-white py-3 rounded-2xl font-bold mt-4 text-center">💬 CONTATO RÁPIDO</a><button onclick="home()" class="w-full bg-[#2B1A1A] text-white py-3 rounded-2xl font-bold mt-3 text-sm">Início</button></div>';document.getElementById("app").innerHTML=html;}
-function listaServ(){var h='<div class="p-5 max-w-sm mx-auto"><button onclick="home()" class="text-[#D9A679] font-bold text-sm">← Voltar</button><h2 class="serif text-2xl font-bold mt-4" style="color:#5A2A27">Nossos Serviços</h2><div class="grid gap-2 mt-5">';for(var i=0;i<SERVICOS.length;i++){var s=SERVICOS[i];h+='<button onclick="selServ('+i+')" class="bg-white p-4 rounded-2xl border flex justify-between text-left"><span class="font-bold text-sm">'+s.n+'<br><span class="text-xs text-gray-400">'+s.t+'</span></span><span class="bg-[#FFF8F0] text-[#D9A679] font-black px-3 py-1 rounded-full">R$ '+s.p+'</span></button>';}h+='</div></div>';document.getElementById("app").innerHTML=h;}
+5A2A27">Nossos Serviços</h2><div class="grid gap-2 mt-5">';for(var i=0;i<SERVICOS.length;i++){var s=SERVICOS[i];h+='<button onclick="selServ('+i+')" class="bg-white p-4 rounded-2xl border flex justify-between text-left"><span class="font-bold text-sm">'+s.n+'<br><span class="text-xs text-gray-400">'+s.t+'</span></span><span class="bg-[#FFF8F0] text-[#D9A679] font-black px-3 py-1 rounded-full">R$ '+s.p+'</span></button>';}h+='</div></div>';document.getElementById("app").innerHTML=h;}
 function selServ(i){servSel=SERVICOS[i];telaData();}
 function telaData(){var html='<div class="p-5 max-w-sm mx-auto"><button onclick="listaServ()" class="text-[#D9A679] font-bold text-sm">← Voltar</button><div class="bg-white p-4 rounded-2xl mt-4 border"><h2 class="font-black">'+servSel.n+'</h2><p class="text-[#D9A679] font-bold">R$ '+servSel.p+' • '+servSel.t+'</p></div><p class="font-bold text-sm mt-5">Escolha o dia</p><input id="dt" type="date" value="'+dataSel+'" class="w-full mt-2 p-3 rounded-xl border bg-white"><p class="font-bold text-sm mt-5">Horários livres</p><div class="grid grid-cols-3 gap-2 mt-3">';for(var j=0;j<HORAS.length;j++){var h=HORAS[j];html+='<button onclick="selHora(\\''+h+'\\')" class="p-3 rounded-xl font-black bg-white border">'+h+'</button>';}html+='</div></div>';document.getElementById("app").innerHTML=html;document.getElementById("dt").onchange=function(e){dataSel=e.target.value;};}
 function selHora(h){horaSel=h;telaConf();}
@@ -19,94 +9,88 @@ home();
 </script></body></html>(h=>{let f=(state.horF[state.dataAdmin]||[]).includes(h); return `<button onclick="toggleHora('${h}')" class="p-2 rounded-xl text-xs font-bold ${f?'bg-red-500 text-white':'bg-pink-50'}">${h}${f?' ✕':''}</button>`}).join('')}</div></div>
    <div class="bg-white p-4 rounded-2xl mt-4 shadow"><h3 class="font-bold">📜 Histórico Completo</h3><div class="flex gap-1 mt-2 overflow-auto">${["TODOS","PENDENTES","CONCLUÍDOS","CANCELADOS"].map(f=>`<button onclick="state.filtro='${f}';render()" class="px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ${state.filtro===f?'bg-pink-500 text-white':'bg-gray-100'}">${f}</button>`).join('')}</div><div class="mt-3 space-y-1 max-h-96 overflow-auto">${filtrados.sort((a,b)=>b.id-a.id).map(a=>`<div class="border-b py-2 flex justify-between text-xs"><span>${a.data.split('-').reverse().join('/')} ${a.hora} - ${a.nome} - ${a.status}</span><span class="font-bold">R$ ${a.preco}</span></div>`).join('')}</div></div>
    ${state.diaDetalhe?`<div class="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"><div class="bg-white p-4 rounded-2xl w-full max-w-md max-h-[80vh] overflow-auto"><div class="flex justify-between"><h3 class="font-bold">Detalhes ${state.diaDetalhe.split('-').reverse().join('/')}</h3><button onclick="state.diaDetalhe=null;render()" class="font-bold">X</button></div><div class="mt-3 space-y-2">${state.agend.filter(a=>a.data===state.diaDetalhe).map(a=>`<div class="border p-3 rounded-xl"><p class="font-bold text-sm">${a.hora} - ${a.nome} (${a.status})</p><p class="text-xs">${a.servico} - R$ ${a.preco} - ${a.fone}</p><div class="flex gap-2 mt-2">${a.status==='pendente'?`<button onclick="abrirConf(${a.id})" class="flex-1 bg-green-500 text-white py-1 rounded-lg text-xs font-bold">Concluir ✅</button><button onclick="cancelarAg(${a.id})" class="flex-1 bg-red-100 text-red-600 py-1 rounded-lg text-xs">Cancelar 🗑️</button>`:`${a.status==='concluido'?`<button onclick="voltarPend(${a.id})" class="w-full bg-yellow-100 text-yellow-700 py-1 rounded-lg text-xs">↩️ Voltar para Pendente</button>`:''}`}</div></div>`).join('')||'<p class="text-center text-gray-400 mt-10">Nenhum agendamento neste dia</p>'}</div></div></div>`:''}
-   ${state.confirm?`<div class="fixed inset-0 bg-black/50 flex items-center justify-center p-6 z-50"><div class="bg-white p-6 rounded-2xl w-full max-w-sm text-center"><h3 class="font-bold">Tem certeza?</h3><p class="text-sm mt-2">Concluir procedimento de ${state.confirm.nome} às ${state.confirm.hora}? R$ ${state.confirm.preco} vai para Receita.</p><div class="flex gap-2 mt-6"><button onclick="state.confirm=null;render()" class="flex-1 bg-gray-100 py-3 rounded-xl font-bold">Cancelar</button><button onclick="concluirAg(${state.confirm.id})" class="flex-1 bg-green-500 text-white py-3 rounded-xl font-bold">Sim, Concluir</button></div></div></div>`:''}
-   </div>`;
-}
-function goServ(){if(!state.nome||!state.fone){alert("⚠️ Preencha nome e WhatsApp!");return;} salvar(); state.tela="servicos"; render();}
-function selServ(id){state.servico=SERVICOS.find(s=>s.id===id); state.tela="agendar"; render();}
-function finalizar(){let novo={id:Date.now(),nome:state.nome,fone:state.fone,servico:state.servico.nome,preco:state.servico.preco,data:state.data,hora:state.hora,status:'pendente'}; state.agend.push(novo); salvar(); let msg=`*💅 ESPAÇO BELEZA - NOVO*%0A👤 ${state.nome}%0A📱 ${state.fone}%0A💅 ${state.servico.nome} - R$ ${state.servico.preco}%0A📅 ${state.data.split('-').reverse().join('/')} ⏰ ${state.hora}`; window.open(`https://wa.me/${WHATSAPP}?text=${msg}`,"_blank"); state.telaConfirm=false; state.tela="home"; state.hora=""; render(); alert("✅ Agendado com sucesso! Verônica recebeu no WhatsApp.");}
-function login(){let s=document.getElementById("sen").value; if(s===SENHA){state.logado=true; localStorage.setItem("adminLoginVeronica",Date.now().toString()); render();} else alert("Senha errada: veve1445");}
-function toggleDia(){let f=state.diasF.includes(state.dataAdmin); state.diasF=f?state.diasF.filter(d=>d!==state.dataAdmin):[...state.diasF,state.dataAdmin]; salvar(); render();}
-function toggleHora(h){let lista=state.horF[state.dataAdmin]||[]; let nova=lista.includes(h)?lista.filter(x=>x!==h):[...lista,h]; state.horF={...state.horF,[state.dataAdmin]:nova}; salvar(); render();}
-function compLivres(){let livres=horariosLivres(state.dataAdmin); let txt=`*Horários livres ${state.dataAdmin.split('-').reverse().join('/')}*%0A${livres.join(', ')||'Nenhum horário livre'}`; window.open(`https://wa.me/?text=${txt}`,"_blank");}
-function abrirConf(id){state.confirm=state.agend.find(a=>a.id===id); render();}
-function concluirAg(id){state.agend=state.agend.map(a=>a.id===id?{...a,status:'concluido'}:a); salvar(); let ag=state.agend.find(a=>a.id===id); state.confirm=null; state.diaDetalhe=null; render(); let msg=`Obrigada ${ag.nome}! Procedimento concluído 💅✨ - Verônica`; window.open(`https://wa.me/55${ag.fone.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`,"_blank");}
-function cancelarAg(id){if(!confirm("Cancelar? Vai liberar horário e avisar cliente."))return; let ag=state.agend.find(a=>a.id===id); state.agend=state.agend.map(a=>a.id===id?{...a,status:'cancelado'}:a); salvar(); render(); let msg=`Olá ${ag.nome}, seu horário ${ag.data.split('-').reverse().join('/')} às ${ag.hora} foi cancelado pela Verônica. Vamos reagendar?`; window.open(`https://wa.me/55${ag.fone.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`,"_blank");}
-function voltarPend(id){state.agend=state.agend.map(a=>a.id===id?{...a,status:'pendente'}:a); salvar(); render();}
-render();
-</script>
-</body>
-</html><button class="green" onclick="jaPaguei()">✅ Já paguei</button><button class="gray" onclick="tab('c')">Voltar</button>
-</div>
+   ${state.confirm?`<div class="fixed inset-0 bg-black/50 flex items-center justify-center p-6 z-50"><div class="bg-white p-6 rounded-2xl w-full max-w-sm text-center"><h3 class="font-bold">Tem certeza?</h3><p class="text-sm mt-2">Concluir procedimento de ${state.confirm.nome} às ${state.confirm.hora}? R$ ${state.confirm.preco} vai para Receita.</p><div class="flex gap-2 mt-6"><button onclick="state.confirm=null;render()" class="flex-1 bg-gray-100 py-3 rounded-xl font-bold">Cancelar</button><button onclick="concluirAg(${state.confirm.id})" class="flex-1 bg-green-500 text-white py-3 rounded-xl font-bold">Sim, Concluir</<!DOCTYPE html><html lang="pt-br"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Espaco Beleza Veronica V11</title><script src="https://cdn.tailwindcss.com"></script><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet"><style>body{font-family:Inter,sans-serif;background:#FFF8F0}.serif{font-family:'Playfair Display',serif}</style></head><body><div id="app"></div><script>
+var PIX="05446854442";
+var SERVICOS=[{n:"💅 ALONGAMENTO EM GEL",p:150,t:"2h30"},{n:"🤙 BANHO DE GEL",p:90,t:"1h30"},{n:"🤙 BLINDAGEM",p:80,t:"1h30"},{n:"👣 ESCALDA PÉS + CUTILAGEM",p:60,t:"1h"},{n:"🤙 MANUTENÇÃO",p:100,t:"2h"},{n:"🤙 MÃO TRADICIONAL",p:35,t:"40min"},{n:"🦶🤚 PE + MÃOS",p:70,t:"1h30"},{n:"🦶🦶 PE ESMALTAÇÃO EM GEL",p:70,t:"1h"},{n:"👣👣 PE PRÊMIO",p:90,t:"1h30"},{n:"🦶🦶 PE TRADICIONAL",p:40,t:"50min"},{n:"👣 PLÁSTICA DOS PÉS",p:70,t:"1h"},{n:"👣 PLÁSTICA + CUTILAGEM",p:85,t:"1h20"},{n:"🤙💅 POSTIÇA REALISTA",p:120,t:"2h"},{n:"🤙 REMOÇÃO COM CUTILAGEM",p:50,t:"1h"},{n:"🦶🦶 SPA DOS PÉ",p:65,t:"1h"}];
+var HORARIOS=["08:00","09:00","10:00","11:00","13:00","14:00","15:00","16:00","17:00","18:00"];
+var WHATS="5519997477168";
+var nome=localStorage.getItem("vnNome")||"";
+var fone=localStorage.getItem("vnFone")||"";
+var ag=JSON.parse(localStorage.getItem("vnAg")||"[]");
+var dataSel=new Date().toISOString().split("T")[0];
+var horaSel="";
+var servSel=null;
+var confirmAg=null;
 
-<div id="m" class="content hidden"><input id="busca" placeholder="Seu WhatsApp" oninput="renderMeus()"><div id="listMeus"></div></div>
-
-<div id="a" class="content hidden">
-<div id="loginA"><input id="senha" type="password" placeholder="veve1445"><button onclick="login()" style="width:100%;margin-top:8px">Entrar</button></div>
-<div id="panelA" class="hidden">
-<div style="background:#e8ffe8;padding:10px;border-radius:10px;font-size:11px;text-align:center">PIX oficial travado: <b>05446854442</b> ✅<br>Esse código nunca mais muda</div>
-<div class="miniTabs" style="margin-top:10px"><div id="mt1" class="miniTab active" onclick="mtab('ag')">Agenda</div><div id="mt2" class="miniTab" onclick="mtab('sv')">Serviços</div><div id="mt3" class="miniTab" onclick="mtab('bl')">Bloqueios</div><div id="mt4" class="miniTab" onclick="mtab('fi')">Caixa</div></div>
-<div id="mt-ag"><div id="listAdmin"></div></div>
-<div id="mt-sv" class="hidden"><div style="display:flex;gap:6px"><input id="novoNome" placeholder="Ex: Unha"><input id="novoPreco" type="number" placeholder="R$" style="width:80px"><button onclick="addServ()">+</button></div><div id="listServAdmin"></div></div>
-<div id="mt-bl" class="hidden"><div style="display:flex;gap:6px"><input id="blockData" type="date"><button onclick="addBlockDia()">Bloquear Dia</button></div><div id="listBlockDias"></div><br><div style="display:flex;gap:6px"><input id="blockDataHora" type="date" style="flex:1"><select id="blockHora" style="flex:1"><option>08:00</option><option>09:00</option><option>10:00</option><option>11:00</option><option>13:00</option><option>14:00</option><option>15:00</option><option>16:00</option><option>17:00</option><option>18:00</option><option>19:00</option></select><button onclick="addBlockHora()">Bloquear Hora</button></div><div id="listBlockHoras"></div></div>
-<div id="mt-fi" class="hidden"><div id="faturamento"></div></div>
-</div>
-</div>
-</div>
-
-<script>
-const SUPA_URL="https://txwddvcwqjecsgdahljt.supabase.co";
-const SUPA_KEY="sb_publishable_G3-GURUQH_gnPXirvlVBow_ee5c68qt";
-const PIX_KEY_FIXA="05446854442";
-const supa = supabase.createClient(SUPA_URL, SUPA_KEY);
-let ags=[];
+function salvar(){localStorage.setItem("vnAg",JSON.stringify(ag));localStorage.setItem("vnNome",nome);localStorage.setItem("vnFone",fone);}
 
 function fmt(id,val){return id+String(val.length).padStart(2,'0')+val}
-function crc16(s){let crc=0xFFFF;for(let i=0;i<s.length;i++){crc^=s.charCodeAt(i)<<8;for(let j=0;j<8;j++){crc=crc&0x8000?(crc<<1)^0x1021:crc<<1;crc&=0xFFFF}}return crc.toString(16).toUpperCase().padStart(4,'0')}
-
-function geraPixSemNaN(valor){
-  let v = Number(valor);
-  if(isNaN(v) || v<=0){ alert('Erro: preço inválido ('+valor+'). Cadastre o serviço novamente com preço.'); throw new Error('preco NaN'); }
-  let valorFmt = v.toFixed(2);
-  let payload = fmt('00','01')+fmt('26', fmt('00','BR.GOV.BCB.PIX')+fmt('01',PIX_KEY_FIXA))+fmt('52','0000')+fmt('53','986')+fmt('54',valorFmt)+fmt('58','BR')+fmt('59','VERONICA NAILS')+fmt('60','SANTA GERTRUDES')+fmt('62',fmt('05','***'))+'6304';
-  return payload + crc16(payload);
+function crc(s){let c=0xFFFF;for(let i=0;i<s.length;i++){c^=s.charCodeAt(i)<<8;for(let j=0;j<8;j++){if(c&0x8000)c=(c<<1)^0x1021;else c<<=1;c&=0xFFFF}}return c.toString(16).toUpperCase().padStart(4,'0')}
+function pixCode(valor){
+  let v=Number(valor);
+  if(isNaN(v)||v<=0) v=35;
+  let pay=fmt('00','01')+fmt('26',fmt('00','BR.GOV.BCB.PIX')+fmt('01',PIX))+fmt('52','0000')+fmt('53','986')+fmt('54',v.toFixed(2))+fmt('58','BR')+fmt('59','VERONICA NAILS')+fmt('60','SANTA GERTRUDES')+fmt('62',fmt('05','***'))+'6304';
+  return pay+crc(pay);
 }
 
-function tab(t){['c','m','a','pix'].forEach(id=>document.getElementById(id).classList.add('hidden'));['t1','t2','t3'].forEach(id=>document.getElementById(id).classList.remove('active'));if(t==='c'){document.getElementById('c').classList.remove('hidden');document.getElementById('t1').classList.add('active')}if(t==='m'){document.getElementById('m').classList.remove('hidden');document.getElementById('t2').classList.add('active');renderMeus()}if(t==='a'){document.getElementById('a').classList.remove('hidden');document.getElementById('t3').classList.add('active');loadAdmin()}if(t==='pix'){document.getElementById('pix').classList.remove('hidden')}}
-function mtab(t){['mt-ag','mt-sv','mt-bl','mt-fi'].forEach(id=>document.getElementById(id).classList.add('hidden'));['mt1','mt2','mt3','mt4'].forEach(id=>document.getElementById(id).classList.remove('active'));document.getElementById('mt-'+t).classList.remove('hidden');document.getElementById(t==='ag'?'mt1':t==='sv'?'mt2':t==='bl'?'mt3':'mt4').classList.add('active');if(t==='fi')renderFatura();if(t==='sv')renderServAdmin();if(t==='bl')renderBlocks();}
-
-async function loadAll(){
-let {data:s}=await supa.from('servicos').select('*').eq('ativo',true).order('nome');
-// filtra só preços válidos
-let validos = (s||[]).filter(x=>!isNaN(Number(x.preco)) && Number(x.preco)>0);
-document.getElementById('serv').innerHTML=validos.map(x=>`<option value="${x.nome}|${Number(x.preco)}">${x.nome} - R$${Number(x.preco)}</option>`).join('')||'<option value="">Cadastre serviços no Admin</option>';
-let {data:agData}=await supa.from('agendamentos').select('*').order('created_at',{ascending:false});ags=agData||[];
-renderHoras();
+function home(){
+  let html='<div class="max-w-sm mx-auto p-6"><div class="text-center mt-8"><h1 class="serif text-4xl font-bold" style="color:#5A2A27">ESPAÇO BELEZA</h1><p class="serif text-2xl" style="color:#C9A07A">Verônica</p><p class="text-[10px] text-gray-400 mt-2">PIX oficial: '+PIX+' - V11 sem bugs</p></div>';
+  html+='<div class="bg-white p-5 rounded-3xl mt-8 shadow-sm border"><input id="n" value="'+nome+'" placeholder="Seu nome *" class="w-full p-4 border rounded-xl mb-3 bg-[#FFF8F0]"><input id="f" value="'+fone+'" placeholder="WhatsApp *" class="w-full p-4 border rounded-xl bg-[#FFF8F0]"></div>';
+  html+='<button onclick="verServicos()" class="w-full bg-[#D9A679] text-white py-4 rounded-2xl font-black mt-6">VER SERVIÇOS E AGENDAR →</button>';
+  html+='<button onclick="verMeus()" class="w-full bg-white border-2 border-[#2B1A1A] py-3.5 rounded-2xl font-bold mt-3 text-sm">📜 MEUS AGENDAMENTOS</button>';
+  html+='<button onclick="verAdmin()" class="w-full bg-[#2B1A1A] text-white py-3 rounded-2xl font-bold mt-3 text-sm">SOU ADMIN 👑</button></div>';
+  document.getElementById("app").innerHTML=html;
+  document.getElementById("n").oninput=function(e){nome=e.target.value;salvar();};
+  document.getElementById("f").oninput=function(e){fone=e.target.value;salvar();};
 }
 
-function renderHoras(){let d=document.getElementById('data').value;if(!d)return;supa.from('bloqueios_dias').select('*').then(({data})=>{let dias=data?.map(b=>b.data)||[];if(dias.includes(d)){document.getElementById('aviso').innerText='⛔ Dia bloqueado';document.getElementById('hora').innerHTML='<option>Fechado</option>';return}document.getElementById('aviso').innerText='';let opts=[];["08:00","09:00","10:00","11:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00"].forEach(hh=>{let ocup=ags.some(a=>a.data===d&&a.hora===hh&&a.status!=='cancelado');opts.push(`<option ${ocup?'disabled':''} value="${hh}">${hh} ${ocup?'(Ocupado)':''}</option>`)});document.getElementById('hora').innerHTML=opts.join('');});}
-
-async function pagar(){
-let btn=document.getElementById('btnAgendar');btn.disabled=true;
-let n=document.getElementById('nome').value.trim(),z=document.getElementById('zap').value.trim(),s=document.getElementById('serv').value,d=document.getElementById('data').value,h=document.getElementById('hora').value;
-if(!s){alert('Cadastre um serviço primeiro');btn.disabled=false;return;}
-if(n.length<3||z.length<10||!d){alert('Preencha');btn.disabled=false;return;}
-let {data:ocupado}=await supa.from('agendamentos').select('id').eq('data',d).eq('hora',h).neq('status','cancelado').limit(1);
-if(ocupado?.length){alert('Horário ocupado!');await loadAll();btn.disabled=false;return;}
-let [ns,pr]=s.split('|');
-let precoNum = Number(pr);
-if(isNaN(precoNum)){alert('Serviço com preço inválido, apague e cadastre de novo com número');btn.disabled=false;return;}
-let cod;
-try{ cod = geraPixSemNaN(precoNum); }catch(e){btn.disabled=false;return;}
-document.getElementById('resumo').innerHTML=`<b>${n}</b><br>${ns} R$${precoNum}<br>${d.split('-').reverse().join('/')} ${h}`;
-document.getElementById('codigoPix').value=cod;
-console.log('PIX GERADO:', cod, 'CHAVE:', PIX_KEY_FIXA, 'VALOR:', precoNum);
-let {error}=await supa.from('agendamentos').insert([{nome:n,zap:z,servico:ns,valor:precoNum,data:d,display:d.split('-').reverse().join('/'),hora:h,status:'aguardando_pix'}]);
-btn.disabled=false;
-if(error){if(error.code==='23505'){alert('Alguém acabou de pegar esse horário!');}else alert(error.message);return;}
-await loadAll();tab('pix');
+function verServicos(){
+  if(nome.length<2||fone.length<8){alert("Digite nome e WhatsApp");return;}
+  let h='<div class="p-5 max-w-sm mx-auto"><button onclick="home()" class="text-[#D9A679] font-bold text-sm">← Voltar</button><h2 class="serif text-2xl font-bold mt-4" style="color:#5A2A27">Nossos Serviços</h2><div class="grid gap-2 mt-5">';
+  for(let i=0;i<SERVICOS.length;i++){let s=SERVICOS[i];h+='<button onclick="selServ('+i+')" class="bg-white p-4 rounded-2xl border flex justify-between text-left"><span class="font-bold text-sm">'+s.n+'<br><span class="text-xs text-gray-400">'+s.t+'</span></span><span class="bg-[#FFF8F0] text-[#D9A679] font-black px-3 py-1 rounded-full">R$ '+s.p+'</span></button>';}
+  h+='</div></div>';
+  document.getElementById("app").innerHTML=h;
 }
-function copyPix(){let i=document.getElementById('codigoPix');i.select();i.setSelectionRange(0,99999);navigator.clipboard.writeText(i.value);alert('✅ Código copiado! Agora cola no banco - vai funcionar porque não tem NaN e tem a chave 05446854442 dentro');}
+function selServ(i){servSel=SERVICOS[i];verData();}
+
+function verData(){
+  let bloqueados=ag.filter(a=>a.data===dataSel&&a.status!=='cancelado').map(a=>a.hora);
+  let html='<div class="p-5 max-w-sm mx-auto"><button onclick="verServicos()" class="text-[#D9A679] font-bold text-sm">← Voltar</button>';
+  html+='<div class="bg-white p-4 rounded-2xl mt-4 border"><h2 class="font-black">'+servSel.n+'</h2><p class="text-[#D9A679] font-bold">R$ '+servSel.p+' • '+servSel.t+'</p></div>';
+  html+='<p class="font-bold text-sm mt-5">Escolha o dia</p><input id="dt" type="date" value="'+dataSel+'" class="w-full mt-2 p-3 rounded-xl border bg-white">';
+  html+='<p class="font-bold text-sm mt-5">Horários livres</p><div class="grid grid-cols-3 gap-2 mt-3">';
+  for(let j=0;j<HORARIOS.length;j++){let hh=HORARIOS[j];let ocup=bloqueados.indexOf(hh)>-1;if(ocup){html+='<button class="p-3 rounded-xl font-black bg-gray-200 text-gray-400 border">'+hh+' X</button>';}else{html+='<button onclick="selHora(\''+hh+'\')" class="p-3 rounded-xl font-black bg-white border">'+hh+'</button>';}}
+  html+='</div></div>';
+  document.getElementById("app").innerHTML=html;
+  document.getElementById("dt").onchange=function(e){dataSel=e.target.value;verData();};
+}
+function selHora(h){horaSel=h;verConfirm();}
+
+function verConfirm(){
+  let codigo=pixCode(servSel.p);
+  let dataBr=dataSel.split("-").reverse().join("/");
+  let html='<div class="max-w-sm mx-auto p-5"><button onclick="verData()" class="text-[#D9A679] font-bold text-sm">← Voltar</button>';
+  html+='<div class="bg-white rounded-3xl p-6 mt-5 shadow-lg border"><h2 class="serif text-2xl font-bold text-center" style="color:#5A2A27">Confirmar?</h2>';
+  html+='<div class="bg-[#FFF8F0] rounded-2xl p-4 mt-6 text-sm leading-7"><b>Cliente:</b> '+nome+'<br><b>Serviço:</b> '+servSel.n+'<br><b>Valor:</b> R$ '+servSel.p+'<br><b>Data:</b> '+dataBr+' às '+horaSel+'</div>';
+  html+='<div class="bg-green-50 border-2 border-dashed border-green-500 rounded-2xl p-4 mt-4 text-center"><p class="text-xs font-bold">PIX Verônica</p><p class="font-black">'+PIX+'</p><input id="pix" value="'+codigo+'" readonly class="w-full mt-2 p-2 text-[9px] border rounded-xl bg-white"><button onclick="copiar()" class="w-full bg-[#D9A679] text-white py-3 rounded-xl font-black mt-2 text-xs">📋 COPIAR CÓDIGO PIX</button></div>';
+  html+='<button onclick="finalizar()" class="w-full bg-[#2B1A1A] text-white py-4 rounded-2xl font-black mt-5">✅ CONFIRMAR AGENDAMENTO</button></div></div>';
+  document.getElementById("app").innerHTML=html;
+}
+function copiar(){let i=document.getElementById("pix");i.select();navigator.clipboard.writeText(i.value);alert("PIX copiado! Chave "+PIX+" dentro. Sem NaN ✅");}
+
+function finalizar(){
+  let existe=ag.some(a=>a.data===dataSel&&a.hora===horaSel&&a.status!=='cancelado');
+  if(existe){alert("Horário ocupado! Escolha outro");verData();return;}
+  let novo={id:Date.now(),nome:nome,fone:fone,servico:servSel.n,preco:servSel.p,data:dataSel,hora:horaSel,status:"pendente"};
+  ag.push(novo);salvar();
+  let url="https://wa.me/"+WHATS+"?text="+encodeURIComponent("💅 NOVO AGENDAMENTO\nCliente: "+nome+"\nServico: "+servSel.n+" R$"+servSel.p+"\nData: "+dataSel.split("-").reverse().join("/")+" às "+horaSel);
+  let html='<div class="max-w-sm mx-auto p-6 text-center"><div class="bg-white rounded-3xl p-7 mt-10 shadow-xl border"><div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto text-white text-3xl">✓</div><h2 class="serif text-3xl font-bold mt-5" style="color:#5A2A27">Confirmado!</h2><div class="bg-[#FFF8F0] rounded-2xl p-4 mt-6 text-left text-sm"><b>'+servSel.n+'</b><br>📅 '+dataSel.split("-").reverse().join("/")+' às '+horaSel+'<br>💰 R$ '+servSel.p+'</div><a href="'+url+'" target="_blank" class="block w-full bg-[#25D366] text-white py-4 rounded-2xl font-black mt-6">💬 WHATSAPP VERÔNICA</a><button onclick="verMeus()" class="w-full bg-white border-2 border-[#2B1A1A] py-3 rounded-2xl font-bold mt-3 text-sm">MEUS AGENDAMENTOS</button></div></div>';
+  document.getElementById("app").innerHTML=html;
+  setTimeout(function(){window.open(url,"_blank");},800);
+}
+
+function verMeus(){
+  let meus=ag.filter tem NaN e tem a chave 05446854442 dentro');}
 async function jaPaguei(){let {data}=await supa.from('agendamentos').select('*').order('created_at',{ascending:false}).limit(1);if(!data?.[0])return;let u=data[0];window.open(`https://wa.me/5519997477168?text=Oi%20Verônica!%20Paguei%20PIX%20R$${u.valor}%20${u.display}%20${u.hora}`);tab('m');document.getElementById('busca').value=u.zap;renderMeus();}
 async function renderMeus(){let b=document.getElementById('busca').value.trim();if(!b){document.getElementById('listMeus').innerHTML='Digite seu WhatsApp';return}let {data}=await supa.from('agendamentos').select('*').ilike('zap','%'+b+'%').order('data');document.getElementById('listMeus').innerHTML=data?.map(a=>`<div class=card><div><b>${a.servico} R$${a.valor}</b><br>${a.display} ${a.hora} - ${a.status}</div></div>`).join('')||'Nenhum';}
 async function login(){if(document.getElementById('senha').value!=='veve1445')return alert('Senha errada');localStorage.setItem('adm','1');document.getElementById('loginA').classList.add('hidden');document.getElementById('panelA').classList.remove('hidden');loadAdmin();}
